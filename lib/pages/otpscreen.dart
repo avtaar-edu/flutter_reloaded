@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_print
 
 import 'package:avtaar_signupotp/pages/register_screen.dart';
 import 'package:avtaar_signupotp/widgets/custom_button.dart';
