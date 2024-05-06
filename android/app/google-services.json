@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "584022552068",
+    "project_id": "phone-firebase-1017c",
+    "storage_bucket": "phone-firebase-1017c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584022552068:android:bb7d1374a84ee97cad0f51",
+        "android_client_info": {
+          "package_name": "com.example.avtaar_signupotp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRa0eHFeOrPgwi3VtcSXvtYPLN4CAX0Ic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
