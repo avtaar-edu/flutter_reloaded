@@ -2,6 +2,7 @@
 //import "package:avtaar_signupotp/pages/otpscreen.dart";
 import "package:avtaar_signupotp/widgets/custom_button.dart";
 import "package:firebase_auth/firebase_auth.dart";
+
 //import "package:country_picker/country_picker.dart";
 import "package:flutter/material.dart";
 
@@ -27,7 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
 Future<void> verifyPhone() async {
                           try{await FirebaseAuth.instance.verifyPhoneNumber(
-  phoneNumber: countryController.text+phone,
+  phoneNumber: '${countryController.text+phone}',
   verificationCompleted: (PhoneAuthCredential credential)
   {}  ,
   verificationFailed: (FirebaseAuthException e) {},
@@ -56,13 +57,33 @@ Future<void> verifyPhone() async {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Center(
+        
 
-            child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 25, horizontal: 35),
+          
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    GestureDetector(
+onTap: (){},
+child: Container(
+  color: Colors.yellow.shade50,
+  height:MediaQuery.of(context).size.height*0.6,
+),
+         
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      ),
+                      child: Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.fromLTRB(35, 25, 35 ,20),
+                      
+                    child:Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
                     Container(
                       height: 200,
                       width: 200,
@@ -111,16 +132,18 @@ Future<void> verifyPhone() async {
                       ),
                     ),
                     const SizedBox(height:16),
-                   
+                      ],
+                      ),
+                    ),
 
-                  ],
-
+                  
+                
                 ),
-            ),
+                  ],
+               ),
 
 
         ),
-      ),
     );
   }
 }
