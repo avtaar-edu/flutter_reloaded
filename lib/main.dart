@@ -17,6 +17,7 @@ void main()async {
       'phone': (context) => RegisterScreen(),
       'otp': (context) => OtpPage(),
       'home':(context) => Name(),
+      
     },
   ));
 }

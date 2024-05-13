@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -6,20 +7,26 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
+    return Container(
       
-      style:ButtonStyle(
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurpleAccent),
-        
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius:BorderRadius.circular(10),),),
+      decoration: BoxDecoration(gradient: LinearGradient(colors: 
+      [Color.fromARGB(255, 122, 98, 248),Color.fromARGB(255,99, 11, 255)],
+      stops: [0.0,1.0]
+      ),
+      
+     
+      ),
+      child:ElevatedButton(onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.white,
       ),
       child:Text(text,style:TextStyle(
         fontSize: 16,
-      )
       ),
-      
+      ),
+      ),
     );
   }
 }
