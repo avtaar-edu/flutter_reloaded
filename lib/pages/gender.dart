@@ -1,23 +1,27 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables
 
 
-import 'package:avtaar_signupotp/pages/gender.dart';
+
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
+import 'package:avtaar_signupotp/widgets/gender_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Name extends StatefulWidget {
-  const Name({super.key});
+class Gender extends StatefulWidget {
+  final String name;
+  Gender({super.key, required this.name});
 
   @override
-  State<Name> createState() => _NameState();
+  State<Gender> createState() => _GenderState();
 }
 
-class _NameState extends State<Name> {
-  final TextEditingController nameController = TextEditingController();
+class _GenderState extends State<Gender> {
+  final TextEditingController genderController = TextEditingController();
   bool _validate=false;
-  var name="";
+  var gender="";
   var errorText="";
+  
+  _GenderState();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,8 +34,9 @@ class _NameState extends State<Name> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 120,width:120),
-                  const Text(
-                    'Hello!\nWhat\'s Your Name?',
+                   Text(
+                    'Hi ${widget.name}! To which gender identity do you most identify with?',
+                    
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -39,23 +44,29 @@ class _NameState extends State<Name> {
                   ),
                   // Add more widgets here as needed
                   const SizedBox(height: 20),
-                    TextField(
-                        controller: nameController,
-                        
-                        onChanged: (value){
-                         name=value;
-                        },
-                        decoration: InputDecoration(
-                          focusColor: Colors.blue.shade100,
-                         labelText: 'Name',
-                          errorText:_validate?"Please enter name":"",
-                          
-                        ),
-                         cursorColor: Color.fromARGB(255, 99, 11, 255),
-                        
-                        
-                    ),
-                   
+                 ButtonBar(
+                  alignment:MainAxisAlignment.center,
+                  children: [
+                     GenderButton(text: 'Male', onPressed: (){}),
+                  //Padding(padding: EdgeInsets.all(20)),
+                  GenderButton(text: 'Female', onPressed: (){}),
+                  ],
+                 ),
+                  Align(child:GenderButton(text: 'Transgender', onPressed: (){})),
+                  
+                  
+                    ColoredBox(color: Color.fromARGB(255, 249, 245, 255),
+                  
+                  child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Prefer to self-describe',
+                    
+                  ),
+                  cursorColor: Color.fromARGB(255, 99, 11, 255),
+                  ),
+                  ),
+                  
+                  Align(child:GenderButton(text: 'Prefer not to say', onPressed: (){})),
  const SizedBox(height: 100,),
   SvgPicture.asset(
                 'assets/profile-blob-c-left.svg',
@@ -65,9 +76,9 @@ class _NameState extends State<Name> {
  child:Forward(
   onPressed: () {
     setState(() {
-      _validate=nameController.text.isEmpty;
+      _validate=genderController.text.isEmpty;
       if(!_validate){
-       Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Gender(name: nameController.text)));
+       // Navigator.pushNamed(context, 'gender');
       }
     });
   },
@@ -76,17 +87,23 @@ class _NameState extends State<Name> {
  SizedBox(height: 65,),
  LinearProgressIndicator(backgroundColor: Colors.grey,
  color: Colors.yellow,
- value: 0.05,
+ value: 0.15,
  ),
- SizedBox(height: 70,),
  
+
+
+
+
                 ],
               ),
             ),
           ),
-           Align(alignment: Alignment.bottomLeft,
- child:SvgPicture.asset('assets/profile-blob-b-left.svg'),
- ),   
+          Align(alignment: Alignment.bottomLeft,
+child: SvgPicture.asset(
+                'assets/profile-blob-b-left.svg',
+                fit: BoxFit.contain,
+              ),
+              ),
      Align(alignment: Alignment.bottomRight,
  child:SvgPicture.asset('assets/profile-blob-b-right.svg'),
  ),    
