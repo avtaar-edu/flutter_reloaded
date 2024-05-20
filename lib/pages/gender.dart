@@ -1,7 +1,4 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables
-
-
-
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 import 'package:avtaar_signupotp/widgets/gender_button.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +13,32 @@ class Gender extends StatefulWidget {
 }
 
 class _GenderState extends State<Gender> {
-  final TextEditingController genderController = TextEditingController();
+  String selectedGender="";
   bool _validate=false;
-  var gender="";
-  var errorText="";
-  
+  final TextEditingController selfDescribeController=TextEditingController();
+  void _onGenderSelected(String gender)
+  {
+    setState(() {
+      selectedGender=gender;
+      selfDescribeController.clear();
+    });
+  }
+  void _onSelfDescribeChanged(String value)
+  {
+    setState(() {
+      selectedGender=value;
+      if(value.isNotEmpty){
+        selectedGender=value;
+      
+      }
+    });
+  }
+  @override
+  void dispose()
+  {
+    selfDescribeController.dispose();
+    super.dispose();
+  }
   _GenderState();
   @override
   Widget build(BuildContext context) {
@@ -35,7 +53,7 @@ class _GenderState extends State<Gender> {
                 children: [
                   const SizedBox(height: 120,width:120),
                    Text(
-                    'Hi ${widget.name}! To which gender identity do you most identify with?',
+                    'Hi ${widget.name}!\nTo which gender identity do you most identify with?',
                     
                     style: TextStyle(
                       fontSize: 32,
@@ -43,57 +61,90 @@ class _GenderState extends State<Gender> {
                     ),
                   ),
                   // Add more widgets here as needed
-                  const SizedBox(height: 20),
-                 ButtonBar(
+                 const SizedBox(height:10),
+                     Align(alignment: Alignment.centerRight,
+  child:Column(children: [
+    ButtonBar(
                   alignment:MainAxisAlignment.center,
                   children: [
-                     GenderButton(text: 'Male', onPressed: (){}),
+                    
+                     GenderButton(text: 'Male', onPressed: (){
+                      _onGenderSelected("Male");
+                     
+                      //print("Male");
+                     },
+                      isSelected:selectedGender=="Male"
+                     ),
                   //Padding(padding: EdgeInsets.all(20)),
-                  GenderButton(text: 'Female', onPressed: (){}),
+                  GenderButton(text: 'Female', onPressed: (){
+                     _onGenderSelected("Female");
+                                           
+                  },
+                  isSelected:selectedGender=="Female"
+
+                  ),
                   ],
                  ),
-                  Align(child:GenderButton(text: 'Transgender', onPressed: (){})),
+                 SizedBox(height:15),
+                  Align(child:GenderButton(text: 'Transgender', onPressed: (){
+                     _onGenderSelected("Transgender");
+                     
+                  },
+                   isSelected:selectedGender=="Transgender"
+                  )
+                  ),
+                SizedBox(height:15),
+                  SizedBox(width:double.infinity,child:  ColoredBox(color: Color.fromARGB(255, 249, 245, 255),
                   
-                  
-                    ColoredBox(color: Color.fromARGB(255, 249, 245, 255),
-                  
-                  child: TextField(
+                  child:Align(child: TextField(
                   decoration: InputDecoration(
                     labelText: 'Prefer to self-describe',
-                    
+                    contentPadding: EdgeInsets.symmetric(
+                     
+         horizontal: 5.0,
+                    ),
                   ),
                   cursorColor: Color.fromARGB(255, 99, 11, 255),
+                  onChanged: _onSelfDescribeChanged,
                   ),
                   ),
+                    ), 
+                    ),
                   
-                  Align(child:GenderButton(text: 'Prefer not to say', onPressed: (){})),
- const SizedBox(height: 100,),
-  SvgPicture.asset(
-                'assets/profile-blob-c-left.svg',
-                fit: BoxFit.contain,
-              ),
+                    SizedBox(height:15),
+                  Align(child:GenderButton(text: 'Prefer not to say', onPressed: (){
+                     _onGenderSelected("Prefer Not to Say");   
+                  },
+                    isSelected:selectedGender=="Prefer Not to Say"
+                  )
+                  ),
+  ],)
+  ),
+   
+               
+ const SizedBox(height: 85,),
+ 
+  
  Align(alignment: Alignment.bottomRight,
  child:Forward(
   onPressed: () {
+    _validate=selectedGender.isEmpty;
     setState(() {
-      _validate=genderController.text.isEmpty;
+    
       if(!_validate){
-       // Navigator.pushNamed(context, 'gender');
+       //Navigator.of(context).push(MaterialPageRoute(builder: (context)));
+      Navigator.pushNamed(context, 'edu');
       }
     });
   },
  ),
  ),
- SizedBox(height: 65,),
- LinearProgressIndicator(backgroundColor: Colors.grey,
+ SizedBox(height: 25,),
+ LinearProgressIndicator(backgroundColor: Color.fromARGB(255, 243, 241, 241),
  color: Colors.yellow,
  value: 0.15,
  ),
- 
-
-
-
-
+SizedBox(height: 70,),
                 ],
               ),
             ),
@@ -125,7 +176,23 @@ child: SvgPicture.asset(
               ),
             ),
           ),
-           
+            Positioned(
+            top: 290,
+            right: -50,
+            child: Container(
+              height: 140,
+              width: 140,
+              padding: const EdgeInsets.all(0.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                // Add any other decoration properties you need
+              ),
+              child: SvgPicture.asset(
+                'assets/profile-blob-c-right.svg',
+                fit: BoxFit.contain,
+              ),
+            ),
+          ), 
           
         ],
       ),

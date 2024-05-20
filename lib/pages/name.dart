@@ -16,6 +16,7 @@ class Name extends StatefulWidget {
 class _NameState extends State<Name> {
   final TextEditingController nameController = TextEditingController();
   bool _validate=false;
+  bool isDisabled=true;
   var name="";
   var errorText="";
   @override
@@ -65,16 +66,18 @@ class _NameState extends State<Name> {
  child:Forward(
   onPressed: () {
     setState(() {
+      
       _validate=nameController.text.isEmpty;
       if(!_validate){
        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Gender(name: nameController.text)));
       }
+      
     });
   },
  ),
  ),
  SizedBox(height: 65,),
- LinearProgressIndicator(backgroundColor: Colors.grey,
+ LinearProgressIndicator(backgroundColor: Color.fromARGB(255, 243, 241, 241),
  color: Colors.yellow,
  value: 0.05,
  ),
