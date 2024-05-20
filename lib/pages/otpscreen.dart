@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pinput/pinput.dart';
-import 'dart:async';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({super.key});
@@ -18,17 +17,13 @@ class OtpPage extends StatefulWidget {
 
 class _OtpPageState extends State<OtpPage> {
   final FirebaseAuth auth=FirebaseAuth.instance;
-  int countDown = 59;
-  bool canResend=true;
-  //late Timer countdownTimer;
-  Timer? _timer;
    @override
   void initState() {
    
     super.initState();
-    startTimer();
+   // startTimer();
   }
-  void startTimer(){
+  /*void startTimer(){
    _timer= Timer.periodic(Duration(seconds: 1), (timer) {
    setState(() {
       if(countDown>0){
@@ -49,7 +44,7 @@ class _OtpPageState extends State<OtpPage> {
     startTimer(); 
    }
   }
-
+*/
   @override
 Widget build(BuildContext context) {
   var code = "";
@@ -139,7 +134,7 @@ Widget build(BuildContext context) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
+                      /*InkWell(
                         onTap: () {
                           _resendOtp();
                         },
@@ -153,7 +148,7 @@ Widget build(BuildContext context) {
                       ),
                       Text(
                         countDown > 9 ? '00:${countDown.toString()}' : '00:0${countDown.toString()}',
-                      ),
+                      ),*/
                     ],
                   ),
                   SizedBox(height: 15),

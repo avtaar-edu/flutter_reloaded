@@ -1,4 +1,6 @@
 
+// ignore_for_file: prefer_const_constructors
+
 //import "package:avtaar_signupotp/pages/otpscreen.dart";
 import "package:avtaar_signupotp/widgets/custom_button.dart";
 import "package:firebase_auth/firebase_auth.dart";
