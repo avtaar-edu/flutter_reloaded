@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 
 
-class GenderButton extends StatelessWidget {
+class SelectButton extends StatelessWidget {
   final String text;
   final bool isSelected;
-  const GenderButton({super.key, required this.text, required this.onPressed, this.isSelected=false});
+  const SelectButton({super.key, required this.text, required this.onPressed, this.isSelected=false});
   final VoidCallback onPressed;
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class GenderButton extends StatelessWidget {
         
       
       child:Text(text,style:TextStyle(
-        fontSize: 20,
+        fontSize: 14,
         color:isSelected?Colors.white:Color.fromARGB(255, 99, 11, 255)
       ),
       ),

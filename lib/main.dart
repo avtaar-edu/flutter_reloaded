@@ -3,6 +3,7 @@
 
 import 'package:avtaar_signupotp/pages/education.dart';
 import 'package:avtaar_signupotp/pages/name.dart';
+import 'package:avtaar_signupotp/pages/workexp.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:avtaar_signupotp/pages/register_screen.dart';
@@ -18,7 +19,8 @@ void main()async {
       'phone': (context) => RegisterScreen(),
       'otp': (context) => OtpPage(),
       'home':(context) => Name(),
-      'edu':(context) => Education()
+      'edu':(context) => Education(),
+      'work':(context) => Work(),
     },
   ));
 }
