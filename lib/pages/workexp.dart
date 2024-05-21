@@ -1,39 +1,25 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors
 
 
-
-import 'package:avtaar_signupotp/widgets/clgbutton.dart';
-import 'package:avtaar_signupotp/widgets/schoolbutton.dart';
-import 'package:avtaar_signupotp/widgets/transition.dart';
-import 'package:avtaar_signupotp/widgets/work.dart';
+import 'package:avtaar_signupotp/pages/gender.dart';
+import 'package:avtaar_signupotp/widgets/fwd_button.dart';
+import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Education extends StatefulWidget {
-  const Education({super.key});
+class Work extends StatefulWidget {
+  const Work({super.key});
 
   @override
-  State<Education> createState() => _EducationState();
+  State<Work> createState() => _WorkState();
 }
 
-class _EducationState extends State<Education> {
-  final TextEditingController educationController = TextEditingController();
+class _WorkState extends State<Work> {
+  final TextEditingController WorkController = TextEditingController();
   bool _validate=false;
   bool isDisabled=true;
-  var selectedEducation="";
+  var Work="";
   var errorText="";
-  void _onEducationSelected(String education)
-  {
-    setState(() {
-      selectedEducation=education;
-      //selfDescribeController.clear();
-    });
-  }
-  @override
-  void dispose()
-  {
-        super.dispose();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,52 +33,42 @@ class _EducationState extends State<Education> {
                 children: [
                   const SizedBox(height: 120,width:120),
                   const Text(
-                    'What are you doing now?',
+                    'Select your work experience',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
- Row(
-  //alignment: MainAxisAlignment.center,
-  children: [
-  DoingButton(text:"", onPressed: (){
-    _onEducationSelected("School");
-
-  },
-  isSelected: selectedEducation=="School"
-  ),
-  SizedBox(width:40),
- collegeButton(text: "", onPressed: (){
-  _onEducationSelected("College");
- },
- isSelected: selectedEducation=="College"
- ),
- ],),
- SizedBox(height:40),
- Row(
-  //alignment: MainAxisAlignment.center,
-  children: [
-  transitButton(text:"", onPressed: (){
-    _onEducationSelected("Transit");
-  },
-   isSelected: selectedEducation=="Transit"
-  ),
-  SizedBox(width:40),
- workButton(text: "", onPressed: (){
-  _onEducationSelected("Work");
-  Navigator.pushNamed(context, 'work');
+                  // Add more widgets here as needed
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      SelectButton(text: "less than 1 year", onPressed: (){}),
+                      SizedBox(width:20),
+                      SelectButton(text: "1 year - 5 year", onPressed: (){}),
+                    
+                ],
+                  ),
+                  SizedBox(height:20),
+                  Row(
+                    children: [
+                      SelectButton(text: "5 years - 10 years",onPressed: (){}),
+                      SizedBox(width:20),
+                      SelectButton(text: "more than 10 years", onPressed: (){}),
+                    
+                ],
+                  ),
+                   
+ const SizedBox(height: 100,),
+  SvgPicture.asset(
+                'assets/profile-blob-c-left.svg',
+                fit: BoxFit.contain,
+              ),
  
- },
-  isSelected: selectedEducation=="Work"
-  ),
- ],),
- 
- SizedBox(height: 100,),
+ SizedBox(height: 65,),
  LinearProgressIndicator(backgroundColor: Color.fromARGB(255, 243, 241, 241),
  color: Colors.yellow,
- value: 0.41,
+ value: 0.58,
  ),
  SizedBox(height: 70,),
  

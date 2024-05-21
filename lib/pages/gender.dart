@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
-import 'package:avtaar_signupotp/widgets/gender_button.dart';
+import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -64,11 +64,11 @@ class _GenderState extends State<Gender> {
                  const SizedBox(height:10),
                      Align(alignment: Alignment.centerRight,
   child:Column(children: [
-    ButtonBar(
-                  alignment:MainAxisAlignment.center,
+    Row(
+                  //alignment:MainAxisAlignment.center,
                   children: [
-                    
-                     GenderButton(text: 'Male', onPressed: (){
+                    SizedBox(width:70),
+                     SelectButton(text: 'Male', onPressed: (){
                       _onGenderSelected("Male");
                      
                       //print("Male");
@@ -76,7 +76,8 @@ class _GenderState extends State<Gender> {
                       isSelected:selectedGender=="Male"
                      ),
                   //Padding(padding: EdgeInsets.all(20)),
-                  GenderButton(text: 'Female', onPressed: (){
+                  SizedBox(width:25),
+                  SelectButton(text: 'Female', onPressed: (){
                      _onGenderSelected("Female");
                                            
                   },
@@ -86,7 +87,7 @@ class _GenderState extends State<Gender> {
                   ],
                  ),
                  SizedBox(height:15),
-                  Align(child:GenderButton(text: 'Transgender', onPressed: (){
+                  Align(child:SelectButton(text: 'Transgender', onPressed: (){
                      _onGenderSelected("Transgender");
                      
                   },
@@ -112,7 +113,7 @@ class _GenderState extends State<Gender> {
                     ),
                   
                     SizedBox(height:15),
-                  Align(child:GenderButton(text: 'Prefer not to say', onPressed: (){
+                  Align(child:SelectButton(text: 'Prefer not to say', onPressed: (){
                      _onGenderSelected("Prefer Not to Say");   
                   },
                     isSelected:selectedGender=="Prefer Not to Say"
