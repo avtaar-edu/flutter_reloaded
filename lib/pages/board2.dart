@@ -4,31 +4,31 @@ import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Gender extends StatefulWidget {
-  final String name;
-  Gender({super.key, required this.name});
+class Board2 extends StatefulWidget {
+ // final String name;
+  Board2({super.key});
 
   @override
-  State<Gender> createState() => _GenderState();
+  State<Board2> createState() => _Board2State();
 }
 
-class _GenderState extends State<Gender> {
-  String selectedGender="";
+class _Board2State extends State<Board2> {
+  String selectedBoard2="";
   bool _validate=false;
   final TextEditingController selfDescribeController=TextEditingController();
-  void _onGenderSelected(String gender)
+  void _onBoard2Selected(String Board2)
   {
     setState(() {
-      selectedGender=gender;
+      selectedBoard2=Board2;
       selfDescribeController.clear();
     });
   }
   void _onSelfDescribeChanged(String value)
   {
     setState(() {
-      selectedGender=value;
+      selectedBoard2=value;
       if(value.isNotEmpty){
-        selectedGender=value;
+        selectedBoard2=value;
       
       }
     });
@@ -39,7 +39,7 @@ class _GenderState extends State<Gender> {
     selfDescribeController.dispose();
     super.dispose();
   }
-  _GenderState();
+  _Board2State();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +53,7 @@ class _GenderState extends State<Gender> {
                 children: [
                   const SizedBox(height: 120,width:120),
                    Text(
-                    'Hi ${widget.name}!\nTo which gender identity do you most identify with?',
+                    'Select your School Board',
                     
                     style: TextStyle(
                       fontSize: 32,
@@ -68,38 +68,54 @@ class _GenderState extends State<Gender> {
                   //alignment:MainAxisAlignment.center,
                   children: [
                     SizedBox(width:70),
-                     SelectButton(text: 'Male', onPressed: (){
-                      _onGenderSelected("Male");
+                     SelectButton(text: 'ISC', onPressed: (){
+                      _onBoard2Selected("ISC");
                      
-                      //print("Male");
+                      //print("ISC");
                      },
-                      isSelected:selectedGender=="Male"
+                      isSelected:selectedBoard2=="ISC"
                      ),
                   //Padding(padding: EdgeInsets.all(20)),
                   SizedBox(width:25),
-                  SelectButton(text: 'Female', onPressed: (){
-                     _onGenderSelected("Female");
+                  SelectButton(text: 'CBSE', onPressed: (){
+                     _onBoard2Selected("CBSE");
                                            
                   },
-                  isSelected:selectedGender=="Female"
+                  isSelected:selectedBoard2=="CBSE"
 
                   ),
                   ],
                  ),
                  SizedBox(height:15),
-                  Align(child:SelectButton(text: 'Transgender', onPressed: (){
-                     _onGenderSelected("Transgender");
+        Row(
+                  //alignment:MainAxisAlignment.center,
+                  children: [
+                    SizedBox(width:40),
+                     SelectButton(text: 'State Board', onPressed: (){
+                      _onBoard2Selected("State Board");
                      
+                      //print("ISC");
+                     },
+                      isSelected:selectedBoard2=="State Board"
+                     ),
+                  //Padding(padding: EdgeInsets.all(20)),
+                  SizedBox(width:25),
+                  SelectButton(text: 'IB', onPressed: (){
+                     _onBoard2Selected("IB");
+                                           
                   },
-                   isSelected:selectedGender=="Transgender"
-                  )
+                  isSelected:selectedBoard2=="IB"
+
                   ),
-                SizedBox(height:15),
+                  ],
+                 ),
+                 
+                   SizedBox(height:15),
                   SizedBox(width:double.infinity,child:  ColoredBox(color: Color.fromARGB(255, 249, 245, 255),
                   
                   child:Align(child: TextField(
                   decoration: InputDecoration(
-                    labelText: 'Prefer to self-describe',
+                    labelText: 'Others',
                     contentPadding: EdgeInsets.symmetric(
                      
          horizontal: 5.0,
@@ -112,13 +128,6 @@ class _GenderState extends State<Gender> {
                     ), 
                     ),
                   
-                    SizedBox(height:15),
-                  Align(child:SelectButton(text: 'Prefer not to say', onPressed: (){
-                     _onGenderSelected("Prefer Not to Say");   
-                  },
-                    isSelected:selectedGender=="Prefer Not to Say"
-                  )
-                  ),
   ],)
   ),
    
@@ -129,12 +138,12 @@ class _GenderState extends State<Gender> {
  Align(alignment: Alignment.bottomRight,
  child:Forward(
   onPressed: () {
-    _validate=selectedGender.isEmpty;
+    _validate=selectedBoard2.isEmpty;
     setState(() {
     
       if(!_validate){
-       //Navigator.of(context).push(MaterialPageRoute(builder: (context)));
-      Navigator.pushNamed(context, 'edu');
+       
+      Navigator.pushNamed(context, 'permission');
       }
     });
   },
@@ -184,10 +193,7 @@ child: SvgPicture.asset(
                 shape: BoxShape.rectangle,
                 // Add any other decoration properties you need
               ),
-              child: SvgPicture.asset(
-                'assets/profile-blob-c-right.svg',
-                fit: BoxFit.contain,
-              ),
+              
             ),
           ), 
           Positioned(

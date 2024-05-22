@@ -1,26 +1,26 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
 
 import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Work extends StatefulWidget {
-  const Work({super.key});
+class Grade extends StatefulWidget {
+  const Grade({super.key});
 
   @override
-  State<Work> createState() => _WorkState();
+  State<Grade> createState() => _GradeState();
 }
 
-class _WorkState extends State<Work> {
-  //final TextEditingController WorkController = TextEditingController();
-  //bool isDisabled=true;
-  var work="";
-  //var errorText="";
-  void _onExperienceSelected(String exp)
+class _GradeState extends State<Grade> {
+  //final TextEditingController GradeController = TextEditingController();
+  bool isDisabled=true;
+  var Grade="";
+  var errorText="";
+   void _onGradeSelected(String grade)
   {
     setState(() {
-      work=exp;
+      Grade=grade;
       //selfDescribeController.clear();
     });
   }
@@ -29,6 +29,7 @@ class _WorkState extends State<Work> {
   {
         super.dispose();
   }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +43,7 @@ class _WorkState extends State<Work> {
                 children: [
                   const SizedBox(height: 120,width:120),
                   const Text(
-                    'Select your work experience',
+                    'Which grade are you in?',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -50,51 +51,69 @@ class _WorkState extends State<Work> {
                   ),
                   // Add more widgets here as needed
                   const SizedBox(height: 20),
-                  Row(
+                   Row(
                     children: [
-                      SelectButton(text: "less than 1 yr", onPressed: (){
-                        _onExperienceSelected("<1");
-                        Navigator.pushNamed(context,'permission');
+                      SizedBox(width:MediaQuery.of(context).size.width*0.18),
+                      SelectButton(text: "Grade 8",onPressed: (){
+                        _onGradeSelected("8");
+                        Navigator.pushNamed(context, 'school');
                       },
-                      isSelected: work=="<1",
+                      isSelected: Grade=="8",
                       ),
                       SizedBox(width:20),
-                      SelectButton(text: "1 yr - 5 yr", onPressed: (){
-                          _onExperienceSelected("1-5");
-                          Navigator.pushNamed(context,'permission');
+                      SelectButton(text: "Grade 9", onPressed: (){
+                         _onGradeSelected("9");
+                          Navigator.pushNamed(context, 'school');
                       },
-                        isSelected: work=="1-5",
+                      isSelected: Grade=="9",
                       ),
                     
                 ],
                   ),
-                  SizedBox(height:20),
-                  Row(
+                  SizedBox(height:10),
+                   Row(
                     children: [
-                      SelectButton(text: "5 yrs - 10 yrs",onPressed: (){
-                        _onExperienceSelected("5-10");
-                        Navigator.pushNamed(context,'permission');
+                      SizedBox(width:MediaQuery.of(context).size.width*0.32),
+                      SelectButton(text: "Grade 10",onPressed: (){
+                        _onGradeSelected("10");
+                         Navigator.pushNamed(context, 'school');
                       },
-                      isSelected: work=="5-10",
+                      isSelected: Grade=="10",
+                      ),
+                     
+                ],
+                  ),
+                  SizedBox(height:10),
+                   Row(
+                    children: [
+                      SizedBox(width:MediaQuery.of(context).size.width*0.18),
+                      SelectButton(text: "Grade 11",onPressed: (){
+                       _onGradeSelected("11");
+                        Navigator.pushNamed(context, 'school2');
+                      },
+                      isSelected: Grade=="11",
                       ),
                       SizedBox(width:20),
-                      SelectButton(text: "more than 10yr", onPressed: (){
-                         _onExperienceSelected(">10");
-                         Navigator.pushNamed(context,'permission');
+                      SelectButton(text: "Grade 12", onPressed: (){
+                        _onGradeSelected("12");
+                         Navigator.pushNamed(context, 'school2');
                       },
-                      isSelected: work==">10",
+                      isSelected: Grade=="12",
                       ),
                     
                 ],
                   ),
-                   
  const SizedBox(height: 100,),
   SvgPicture.asset(
                 'assets/profile-blob-c-left.svg',
                 fit: BoxFit.contain,
               ),
+ Align(alignment: Alignment.bottomRight,
  
-  SizedBox(height: 70,),
+ ),
+ //SizedBox(height: 65,),
+ 
+ SizedBox(height: 70,),
  
                 ],
               ),
@@ -124,7 +143,8 @@ class _WorkState extends State<Work> {
               ),
             ),
           ),
-           Positioned(
+           
+          Positioned(
             bottom:50,
             left:20,
             child: 
@@ -140,7 +160,6 @@ class _WorkState extends State<Work> {
  
 
  ),
-          
         ],
       ),
     );
