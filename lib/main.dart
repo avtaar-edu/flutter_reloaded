@@ -9,6 +9,7 @@ import 'package:avtaar_signupotp/pages/name.dart';
 import 'package:avtaar_signupotp/pages/permissions.dart';
 import 'package:avtaar_signupotp/pages/school.dart';
 import 'package:avtaar_signupotp/pages/school2.dart';
+import 'package:avtaar_signupotp/pages/transit.dart';
 import 'package:avtaar_signupotp/pages/workexp.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ void main()async {
       'board1':(context) => Board1(),
       'board2':(context) => Board2(),
       'permission':(context) => Permission(),
+      'transit':(context) => Transit()
     },
   ));
 }
