@@ -76,11 +76,8 @@ class _NameState extends State<Name> {
   },
  ),
  ),
- SizedBox(height: 65,),
- LinearProgressIndicator(backgroundColor: Color.fromARGB(255, 243, 241, 241),
- color: Colors.yellow,
- value: 0.05,
- ),
+ //SizedBox(height: 65,),
+ 
  SizedBox(height: 70,),
  
                 ],
@@ -112,7 +109,22 @@ class _NameState extends State<Name> {
             ),
           ),
            
-          
+          Positioned(
+            bottom:50,
+            left:20,
+            child: 
+            SizedBox(child:  
+            Align(
+              alignment: Alignment.bottomCenter,
+              child:LinearProgressIndicator(backgroundColor: Color.fromARGB(255, 243, 241, 241),
+ color: Colors.yellow,
+ value: 0.05 ,)
+            ),
+           width: MediaQuery.of(context).size.width*0.9,
+ ),
+ 
+
+ ),
         ],
       ),
     );

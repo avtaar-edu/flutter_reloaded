@@ -25,7 +25,7 @@ class SelectButton extends StatelessWidget {
         
       
       child:Text(text,style:TextStyle(
-        fontSize: 14,
+        fontSize: 18,
         color:isSelected?Colors.white:Color.fromARGB(255, 99, 11, 255)
       ),
       ),
