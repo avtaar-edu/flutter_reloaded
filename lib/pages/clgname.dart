@@ -1,38 +1,24 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors
 
 
-
-import 'package:avtaar_signupotp/widgets/clgbutton.dart';
-import 'package:avtaar_signupotp/widgets/schoolbutton.dart';
-import 'package:avtaar_signupotp/widgets/transition.dart';
-import 'package:avtaar_signupotp/widgets/work.dart';
+//import 'package:avtaar_signupotp/pages/gender.dart';
+import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Education extends StatefulWidget {
-  const Education({super.key});
+class CollegeName extends StatefulWidget {
+  const CollegeName({super.key});
 
   @override
-  State<Education> createState() => _EducationState();
+  State<CollegeName> createState() => _CollegeState();
 }
 
-class _EducationState extends State<Education> {
-  final TextEditingController educationController = TextEditingController();
+class _CollegeState extends State<CollegeName> {
+  final TextEditingController CollegeController = TextEditingController();
+  bool _validate=false;
   bool isDisabled=true;
-  var selectedEducation="";
-  //var errorText="";
-  void _onEducationSelected(String education)
-  {
-    setState(() {
-      selectedEducation=education;
-      //selfDescribeController.clear();
-    });
-  }
-  @override
-  void dispose()
-  {
-        super.dispose();
-  }
+  var College="";
+  var errorText="";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,51 +32,52 @@ class _EducationState extends State<Education> {
                 children: [
                   const SizedBox(height: 120,width:120),
                   const Text(
-                    'What are you doing now?',
+                    'Where do you study?',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-SizedBox(height: 20,),
- Row(
-  //alignment: MainAxisAlignment.center,
-  children: [
-  DoingButton(text:"", onPressed: (){
-    _onEducationSelected("School");
-    Navigator.pushNamed(context, 'grade');
-
+                  // Add more widgets here as needed
+                  const SizedBox(height: 20),
+                    TextField(
+                        controller: CollegeController,
+                        
+                        onChanged: (value){
+                         College=value;
+                        },
+                        decoration: InputDecoration(
+                          focusColor: Colors.blue.shade100,
+                         hintText: 'College',
+                          errorText:_validate?"Please enter your College name":"",
+                          
+                        ),
+                         cursorColor: Color.fromARGB(255, 99, 11, 255),
+                        
+                        
+                    ),
+                   
+ const SizedBox(height: 100,),
+  SvgPicture.asset(
+                'assets/profile-blob-c-left.svg',
+                fit: BoxFit.contain,
+              ),
+ Align(alignment: Alignment.bottomRight,
+ child:Forward(
+  onPressed: () {
+    setState(() {
+      
+      _validate=CollegeController.text.isEmpty;
+      if(!_validate){
+       //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Gender(College: CollegeController.text)));
+       Navigator.pushNamed(context, 'permission');
+      }
+      
+    });
   },
-  isSelected: selectedEducation=="School"
-  ),
-  SizedBox(width:40),
- collegeButton(text: "", onPressed: (){
-  _onEducationSelected("College");
-  Navigator.pushNamed(context, 'clg');
- },
- isSelected: selectedEducation=="College"
  ),
- ],),
- SizedBox(height:40),
- Row(
-  //alignment: MainAxisAlignment.center,
-  children: [
-  transitButton(text:"", onPressed: (){
-    _onEducationSelected("Transit");
-    Navigator.pushNamed(context, 'transit');
-  },
-   isSelected: selectedEducation=="Transit"
-  ),
-  SizedBox(width:40),
- workButton(text: "", onPressed: (){
-  _onEducationSelected("Work");
-  Navigator.pushNamed(context, 'work');
- 
- },
-  isSelected: selectedEducation=="Work"
-  ),
- ],),
- 
+ ),
+ //SizedBox(height: 65,),
  
  SizedBox(height: 70,),
  
@@ -132,7 +119,7 @@ SizedBox(height: 20,),
               alignment: Alignment.bottomCenter,
               child:LinearProgressIndicator(backgroundColor: Color.fromARGB(255, 243, 241, 241),
  color: Colors.yellow,
- value: 0.41,)
+ value: 0.87 ,)
             ),
            width: MediaQuery.of(context).size.width*0.9,
  ),

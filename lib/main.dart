@@ -3,6 +3,9 @@
 
 import 'package:avtaar_signupotp/pages/board1.dart';
 import 'package:avtaar_signupotp/pages/board2.dart';
+import 'package:avtaar_signupotp/pages/clgname.dart';
+import 'package:avtaar_signupotp/pages/clgyr.dart';
+import 'package:avtaar_signupotp/pages/college.dart';
 import 'package:avtaar_signupotp/pages/education.dart';
 import 'package:avtaar_signupotp/pages/grade.dart';
 import 'package:avtaar_signupotp/pages/name.dart';
@@ -34,7 +37,10 @@ void main()async {
       'board1':(context) => Board1(),
       'board2':(context) => Board2(),
       'permission':(context) => Permission(),
-      'transit':(context) => Transit()
+      'transit':(context) => Transit(),
+      'clg':(context) => college(),
+      'year':(context) => Year(),
+      'clgname':(context) => CollegeName(),
     },
   ));
 }

@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 
+import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 
 class Permission extends StatefulWidget {
   const Permission({super.key});
@@ -69,12 +71,11 @@ class _PermissionState extends State<Permission> {
  
  checkColor: Colors.black,
  ),
- SizedBox(height: 65,),
- LinearProgressIndicator(backgroundColor: Color.fromARGB(255, 243, 241, 241),
- color: Colors.yellow,
- value: 0.05,
- ),
- SizedBox(height: 70,),
+ SizedBox(height:30),
+Row(children: [],
+),
+SizedBox(height:220)
+ 
  
                 ],
               ),
@@ -100,7 +101,23 @@ class _PermissionState extends State<Permission> {
               ),
             ),
           ),
-           
+            Positioned(
+            bottom:0,
+            right: 10,
+            child: Container(
+              height: 56,
+              width: 62,
+              padding: const EdgeInsets.all(0.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                // Add any other decoration properties you need
+              ),
+              child: SvgPicture.asset(
+                'assets/profile-T&C-b-right.svg',
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
           
         ],
       ),
