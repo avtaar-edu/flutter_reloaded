@@ -17,37 +17,10 @@ class OtpPage extends StatefulWidget {
 
 class _OtpPageState extends State<OtpPage> {
   final FirebaseAuth auth=FirebaseAuth.instance;
-   @override
-  void initState() {
-   
-    super.initState();
-   // startTimer();
-  }
-  /*void startTimer(){
-   _timer= Timer.periodic(Duration(seconds: 1), (timer) {
-   setState(() {
-      if(countDown>0){
-      //valid time
-      countDown--;
-    }else{
-      _timer?.cancel();
-    }
-   });
-    });
-  }
- void _resendOtp(){
-   if(canResend){
-    setState(() {
-      countDown=60;
-      canResend=false;
-    });
-    startTimer(); 
-   }
-  }
-*/
+ String code="";
   @override
 Widget build(BuildContext context) {
-  var code = "";
+  
 
   return Scaffold(
     backgroundColor: Colors.transparent, // Set background color to transparent
@@ -124,10 +97,16 @@ Widget build(BuildContext context) {
                       ),
                     ),
                     onSubmitted: (value) {
-                      print(value);
+                     setState(() {
+                       //print("$value");
+                     });
                     },
                     onChanged: (value) {
-                      code = value;
+                      setState(() {
+                         code = value;
+                         print(code);
+                      });
+                     
                     },
                   ),
                   SizedBox(height: 25),
@@ -157,19 +136,22 @@ Widget build(BuildContext context) {
                     height: 40,
                     child: CustomButton(
                       onPressed: () async {
-                        try {
-                          PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                            verificationId: RegisterScreen.verify,
-                            smsCode: code,
-                          );
+                       // Navigator.pushNamedAndRemoveUntil(context, "home",(route)=>false);
+                        print(code);
+                        
+try {
+  PhoneAuthCredential credential = PhoneAuthProvider.credential(
+    verificationId: RegisterScreen.verify,
+    smsCode: code,
+  );
 
-                          await auth.signInWithCredential(credential);
-                          Navigator.pushNamedAndRemoveUntil(context, "home", (route) => false);
-                        } catch (e) {
-                          print(e);
-                        }
+  await auth.signInWithCredential(credential);
+  Navigator.pushNamedAndRemoveUntil(context, "home",(route)=>false);
+}catch(e){print(e);};
                       },
+
                       text: 'Validate',
+                      
                     ),
                   ),
                 ],

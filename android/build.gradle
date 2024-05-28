@@ -18,7 +18,7 @@ tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
 buildscript {
-    ext.kotlin_version = '1.6.0' //use latest
+    ext.kotlin_version = '1.9.0' //use latest
     
 }
 dependencies {

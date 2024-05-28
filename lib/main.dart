@@ -14,16 +14,19 @@ import 'package:avtaar_signupotp/pages/school.dart';
 import 'package:avtaar_signupotp/pages/school2.dart';
 import 'package:avtaar_signupotp/pages/transit.dart';
 import 'package:avtaar_signupotp/pages/workexp.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:avtaar_signupotp/pages/register_screen.dart';
 import 'package:avtaar_signupotp/pages/otpscreen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MaterialApp(
-    initialRoute: 'home',
+    initialRoute: 'phone',
     debugShowCheckedModeBanner: false,
     routes: {
       'phone': (context) => RegisterScreen(),
