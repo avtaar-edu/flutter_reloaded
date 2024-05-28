@@ -1,8 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
 
-import 'package:avtaar_signupotp/widgets/selection.dart';
+import 'package:avtaar_signupotp/widgets/accept.dart';
+import 'package:avtaar_signupotp/widgets/decline.dart';
+
+
+//import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -20,6 +25,36 @@ class _PermissionState extends State<Permission> {
 
   var Permission="";
   var errorText="";
+   void _onDecSelected(String dec)
+  {
+    setState(() {
+      Permission=dec;
+      
+    });
+  }
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Align(child: Text('Are you sure?',
+            style: TextStyle(fontWeight: FontWeight.bold,
+            
+            ),
+            ),),
+            content: Text('This will quit the app',
+            style: TextStyle(color:Colors.grey,
+            
+            ),
+            ),
+            actions: <Widget>[
+              ElevatedButton(onPressed: (){}, child:Text("No", style: TextStyle(color:Colors.white),),
+              style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 99, 11, 255)),),
+              ElevatedButton(onPressed: (){}, child:Text("Yes")),
+            ],
+          ),
+        )) ??
+        false;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,13 +103,42 @@ class _PermissionState extends State<Permission> {
  title: Text("I agree to the terms and conditions stated above"),
  controlAffinity: ListTileControlAffinity.leading,
  activeColor: Colors.white,
- 
+ shape: RoundedRectangleBorder(
+  borderRadius: BorderRadius.circular(4),
+  
+ ),
  checkColor: Colors.black,
  ),
  SizedBox(height:30),
-Row(children: [],
+Row(children: [DeclineButton(text: "",onPressed: (){
+   _onDecSelected("Decline");
+   _onWillPop();
+},
+isSelected: Permission=="Decline",
 ),
-SizedBox(height:220)
+SizedBox(width:40),
+AcceptButton(text: "Accept",onPressed: (){
+ if(!isChecked!)
+ {
+  setState(() {
+    errorText="Accept terms & conditions to proceed.";
+  });
+  
+ }
+ else{
+  setState(() {
+    errorText="";
+  });
+ }
+},
+isChecked: isChecked!,
+),
+],
+),
+SizedBox(height:20),
+
+Align(child:Text(errorText, style: TextStyle(color: Colors.red),),),
+SizedBox(height:200),
  
  
                 ],

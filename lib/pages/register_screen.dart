@@ -1,7 +1,7 @@
 
 // ignore_for_file: prefer_const_constructors
 
-//import "package:avtaar_signupotp/pages/otpscreen.dart";
+import "package:avtaar_signupotp/pages/otpscreen.dart";
 import "package:avtaar_signupotp/widgets/custom_button.dart";
 import "package:firebase_auth/firebase_auth.dart";
 
@@ -29,7 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
 Future<void> verifyPhone() async {
-                          try{await FirebaseAuth.instance.verifyPhoneNumber(
+                          await FirebaseAuth.instance.verifyPhoneNumber(
   phoneNumber: '${countryController.text+phone}',
   verificationCompleted: (PhoneAuthCredential credential)
   {}  ,
@@ -40,15 +40,18 @@ Future<void> verifyPhone() async {
     Navigator.pushNamed(context, "otp");
   },
   codeAutoRetrievalTimeout: (String verificationId) {},
-);}catch(e){print("$e");}
+);
 
                         }
    _validatePhoneNumber()=>setState(() {
    setState(() {
       if (phoneController.text.length < 10) {
         errorText = "Please enter a valid mobile number";
+
       } else {
         errorText = "";
+        print(phoneController.text);
+        // Navigator.pushNamed(context, "otp");
         verifyPhone();
       }
     });  
@@ -122,7 +125,7 @@ child: Container(
                           hintText: "Mobile Number",
                           errorText:errorText,
                         ),
-                        
+
                     ),
                     const SizedBox(height: 40,),
                     SizedBox(
@@ -130,6 +133,7 @@ child: Container(
                       height: 40,
                       child: CustomButton(
                         onPressed:_validatePhoneNumber,
+
                         text:'Get OTP',
                       ),
                     ),
