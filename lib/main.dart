@@ -26,7 +26,7 @@ void main()async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MaterialApp(
-    initialRoute: 'phone',
+    initialRoute: 'home',
     debugShowCheckedModeBanner: false,
     routes: {
       'phone': (context) => RegisterScreen(),
@@ -42,8 +42,7 @@ void main()async {
       'permission':(context) => Permission(),
       'transit':(context) => Transit(),
       'clg':(context) => college(),
-      'year':(context) => Year(),
-      'clgname':(context) => CollegeName(),
+      
     },
   ));
 }

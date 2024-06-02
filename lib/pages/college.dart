@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 
+import 'package:avtaar_signupotp/pages/clgyr.dart';
 import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,6 +23,8 @@ class _collegeState extends State<college> {
     setState(() {
       college=degree;
       //selfDescribeController.clear();
+      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Year(degree: college)));
+
     });
   }
   @override
@@ -53,21 +56,21 @@ class _collegeState extends State<college> {
                   const SizedBox(height: 20),
                  Align(child: Column(children: [ SelectButton(text: "Diploma",onPressed: (){
                     _onDegreeSelected("Diploma");
-                    Navigator.pushNamed(context, 'year');
+                    
                   },
                   isSelected: college=="Diploma",
                   ),
                    const SizedBox(height: 20),
 SelectButton(text: "Under-Graduate",onPressed: (){
                     _onDegreeSelected("UG");
-                    Navigator.pushNamed(context, 'year');
+                    
                   },
                   isSelected: college=="UG",
                   ),
                    const SizedBox(height: 20),
                   SelectButton(text: "Post-Graduate",onPressed: (){
                     _onDegreeSelected("PG");
-                    Navigator.pushNamed(context, 'year');
+                    
                   },
                   isSelected: college=="PG",
                   ),
