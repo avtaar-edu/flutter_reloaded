@@ -119,7 +119,7 @@ class _School2State extends State<School2> {
               alignment: Alignment.bottomCenter,
               child:LinearProgressIndicator(backgroundColor: Color.fromARGB(255, 243, 241, 241),
  color: Colors.yellow,
- value: 0.05 ,)
+ value: 0.87,)
             ),
            width: MediaQuery.of(context).size.width*0.9,
  ),

@@ -2,12 +2,15 @@
 
 
 //import 'package:avtaar_signupotp/pages/gender.dart';
+import 'package:avtaar_signupotp/models/College.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CollegeName extends StatefulWidget {
-  const CollegeName({super.key});
+  String degree, year;
+  
+  CollegeName({super.key, required this.degree, required this.year});
 
   @override
   State<CollegeName> createState() => _CollegeState();
@@ -17,7 +20,7 @@ class _CollegeState extends State<CollegeName> {
   final TextEditingController CollegeController = TextEditingController();
   bool _validate=false;
   bool isDisabled=true;
-  var College="";
+  var College1="";
   var errorText="";
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,7 @@ class _CollegeState extends State<CollegeName> {
                         controller: CollegeController,
                         
                         onChanged: (value){
-                         College=value;
+                         College1=value;
                         },
                         decoration: InputDecoration(
                           focusColor: Colors.blue.shade100,
@@ -69,6 +72,9 @@ class _CollegeState extends State<CollegeName> {
       
       _validate=CollegeController.text.isEmpty;
       if(!_validate){
+         College1=CollegeController.text;
+        College clg=College(degree:widget.degree, name: College1, year: widget.year);
+        sendCollege(clg);
        //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Gender(College: CollegeController.text)));
        Navigator.pushNamed(context, 'permission');
       }

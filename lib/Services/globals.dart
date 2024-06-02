@@ -1,1 +1,3 @@
-const String baseURL='127.0.0.1:8080/users';
+const String baseURL='http://192.168.192.171:8080/users';
+const String workUrl='http://192.168.192.171:8080/workexp';
+const String clgUrl='http://192.168.192.171:8080/college';

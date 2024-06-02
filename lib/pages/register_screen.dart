@@ -1,10 +1,13 @@
 
 // ignore_for_file: prefer_const_constructors
 
+import "dart:convert";
+
+import "package:avtaar_signupotp/Services/globals.dart";
 import "package:avtaar_signupotp/pages/otpscreen.dart";
 import "package:avtaar_signupotp/widgets/custom_button.dart";
 import "package:firebase_auth/firebase_auth.dart";
-
+import "package:http/http.dart" as http;
 //import "package:country_picker/country_picker.dart";
 import "package:flutter/material.dart";
 
@@ -21,6 +24,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController countryController=TextEditingController();
   var phone="";
   var errorText="";
+  String result="";
+  
    @override
   void initState() {
     
@@ -36,13 +41,15 @@ Future<void> verifyPhone() async {
   verificationFailed: (FirebaseAuthException e) {},
   codeSent: (String verificationId, int? resendToken) {
     RegisterScreen.verify=verificationId;
-   // LinearProgressIndicator();
+   LinearProgressIndicator();
     Navigator.pushNamed(context, "otp");
+  //  _postData();
   },
   codeAutoRetrievalTimeout: (String verificationId) {},
 );
 
                         }
+
    _validatePhoneNumber()=>setState(() {
    setState(() {
       if (phoneController.text.length < 10) {
@@ -53,11 +60,12 @@ Future<void> verifyPhone() async {
         print(phoneController.text);
         // Navigator.pushNamed(context, "otp");
         verifyPhone();
+       //_postData();
       }
     });  
    
     });
-  
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 
+import 'package:avtaar_signupotp/pages/clgname.dart';
 import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Year extends StatefulWidget {
-  const Year({super.key});
+  String degree;
+Year({super.key, required  this.degree});
   
   @override
   State<Year> createState() => _YearState();
@@ -22,6 +24,7 @@ class _YearState extends State<Year> {
     setState(() {
       Year=year;
       //selfDescribeController.clear();
+      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CollegeName(degree: widget.degree, year: Year,)));
     });
   }
   @override
@@ -62,7 +65,7 @@ class _YearState extends State<Year> {
                    const SizedBox(width: 20),
 SelectButton(text: "2nd year",onPressed: (){
                     _onyearSelected("2nd year");
-                    Navigator.pushNamed(context, 'clgname');
+                   
                   },
                   isSelected: Year=="2nd year",
                   ),],),
@@ -72,21 +75,21 @@ SelectButton(text: "2nd year",onPressed: (){
                     const SizedBox(width: 5),
                     SelectButton(text: "3rd year",onPressed: (){
                     _onyearSelected("3rd year");
-                    Navigator.pushNamed(context, 'clgname');
+                    
                   },
                   isSelected: Year=="3rd year",
                   ),
                    const SizedBox(width: 5),
 SelectButton(text: "4th year",onPressed: (){
                     _onyearSelected("4th year");
-                    Navigator.pushNamed(context, 'clgname');
+                    
                   },
                   isSelected: Year=="4th year",
                   ),
                   const SizedBox(width: 5),
 SelectButton(text: "5th year",onPressed: (){
                     _onyearSelected("5th year");
-                    Navigator.pushNamed(context, 'clgname');
+                    
                   },
                   isSelected: Year=="5th year",
                   ),
