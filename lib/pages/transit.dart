@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 
+import 'package:avtaar_signupotp/models/InTransition.dart';
 import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,6 +24,9 @@ class _TransitState extends State<Transit> {
       Transit=exp;
       //selfDescribeController.clear();
     });
+    InTransition inTransition=InTransition(currentStatus: Transit);
+    sendTransit(inTransition);
+    Navigator.pushNamed(context, 'permission');   
   }
   @override
   void dispose()
@@ -52,7 +56,7 @@ class _TransitState extends State<Transit> {
                   const SizedBox(height: 20),
                 SelectButton(text: "Finished school. Exploring options...", onPressed: (){
                   _onTransitSelected("School");
-                    Navigator.pushNamed(context, 'permission');                      
+                                      
                   },
                   isSelected:Transit=="School"
 
@@ -60,14 +64,14 @@ class _TransitState extends State<Transit> {
                 ),
                  Align(alignment: Alignment.center,child:SelectButton(text: "Finished UG. Exploring options...", onPressed: (){
                   _onTransitSelected("UG");
-                    Navigator.pushNamed(context, 'permission');                      
+                                        
                   },
                   isSelected:Transit=="UG"
 
 ),),
                  Align(alignment: Alignment.center,child:SelectButton(text: "Finished PG. Exploring options...", onPressed: (){
                   _onTransitSelected("PG");
-                    Navigator.pushNamed(context, 'permission');                      
+                                       
                   },
                   isSelected:Transit=="PG"
 
@@ -75,7 +79,7 @@ class _TransitState extends State<Transit> {
                  
                   SelectButton(text: "Break from work. Exploring options...", onPressed: (){
                   _onTransitSelected("Work");
-                    Navigator.pushNamed(context, 'permission');                      
+                                     
                   },
                   isSelected:Transit=="Work"
 

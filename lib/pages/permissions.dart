@@ -7,6 +7,7 @@ import 'package:avtaar_signupotp/widgets/decline.dart';
 
 //import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
@@ -47,9 +48,9 @@ class _PermissionState extends State<Permission> {
             ),
             ),
             actions: <Widget>[
-              ElevatedButton(onPressed: (){}, child:Text("No", style: TextStyle(color:Colors.white),),
+              ElevatedButton(onPressed: (){Navigator.of(context).pop(false);}, child:Text("No", style: TextStyle(color:Colors.white),),
               style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 99, 11, 255)),),
-              ElevatedButton(onPressed: (){}, child:Text("Yes")),
+              ElevatedButton(onPressed: (){SystemNavigator.pop();}, child:Text("Yes")),
             ],
           ),
         )) ??

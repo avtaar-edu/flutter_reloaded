@@ -3,8 +3,6 @@
 
 import 'package:avtaar_signupotp/pages/board1.dart';
 import 'package:avtaar_signupotp/pages/board2.dart';
-import 'package:avtaar_signupotp/pages/clgname.dart';
-import 'package:avtaar_signupotp/pages/clgyr.dart';
 import 'package:avtaar_signupotp/pages/college.dart';
 import 'package:avtaar_signupotp/pages/education.dart';
 import 'package:avtaar_signupotp/pages/grade.dart';
@@ -26,7 +24,7 @@ void main()async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MaterialApp(
-    initialRoute: 'home',
+    initialRoute: 'phone',
     debugShowCheckedModeBanner: false,
     routes: {
       'phone': (context) => RegisterScreen(),

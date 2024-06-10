@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables
+import 'package:avtaar_signupotp/models/GenderSelect.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class Gender extends StatefulWidget {
   final String name;
   Gender({super.key, required this.name});
-
+  
   @override
   State<Gender> createState() => _GenderState();
 }
@@ -129,11 +130,13 @@ class _GenderState extends State<Gender> {
  Align(alignment: Alignment.bottomRight,
  child:Forward(
   onPressed: () {
+    GenderSelect genderSelect=GenderSelect(gender:selectedGender);
     _validate=selectedGender.isEmpty;
     setState(() {
     
       if(!_validate){
        //Navigator.of(context).push(MaterialPageRoute(builder: (context)));
+      sendGender(genderSelect);
       Navigator.pushNamed(context, 'edu');
       }
     });
