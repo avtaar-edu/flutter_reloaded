@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 
+import 'package:avtaar_signupotp/models/UserName.dart';
 import 'package:avtaar_signupotp/pages/gender.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,8 @@ class _NameState extends State<Name> {
   bool _validate=false;
   bool isDisabled=true;
   var name="";
-  var errorText="";
+ String?errorText;
+ bool _submitted=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +51,7 @@ class _NameState extends State<Name> {
                         decoration: InputDecoration(
                           focusColor: Colors.blue.shade100,
                          labelText: 'Name',
-                          errorText:_validate?"Please enter name":"",
+                          errorText:_submitted?errorText:null,
                           
                         ),
                          cursorColor: Color.fromARGB(255, 99, 11, 255),
@@ -66,9 +68,12 @@ class _NameState extends State<Name> {
  child:Forward(
   onPressed: () {
     setState(() {
-      
+      _submitted=true;
+
       _validate=nameController.text.isEmpty;
       if(!_validate){
+      UserName userName=new UserName(name: nameController.text);
+      sendname(userName);
        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Gender(name: nameController.text)));
       }
       
