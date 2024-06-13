@@ -24,7 +24,7 @@ void main()async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MaterialApp(
-    initialRoute: 'phone',
+    initialRoute: 'home',
     debugShowCheckedModeBanner: false,
     routes: {
       'phone': (context) => RegisterScreen(),
