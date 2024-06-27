@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_print
+// ignore_for_file: prefer_const_constructors, avoid_print, unused_import
 
 import 'package:avtaar_signupotp/pages/name.dart';
 import 'package:avtaar_signupotp/pages/register_screen.dart';

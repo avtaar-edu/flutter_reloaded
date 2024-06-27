@@ -20,6 +20,7 @@ class DoingButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         shadowColor: Colors.black,
         elevation: 10,
+  
         //backgroundColor: Color.fromARGB(255, 249, 245, 255),
         backgroundColor:isSelected?Color.fromARGB(255, 99, 11, 255):Color.fromARGB(255, 249, 245, 255),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(0),

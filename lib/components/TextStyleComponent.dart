@@ -278,8 +278,9 @@ class TextStyleComponent {
   static TextStyle dBluePurple({required double fontSize}) => TextStyle(
         color: ColorCodes.cBluePurple,
         fontFamily: SOLEIL,
+        
         fontSize: fontSize,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w700,
       );
   static TextStyle dBookBluePurple({required double fontSize}) => TextStyle(
         color: ColorCodes.cBluePurple,

@@ -4,10 +4,8 @@
 import 'package:avtaar_signupotp/components/Colors.dart';
 import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
 import 'package:avtaar_signupotp/components/extension.dart';
-import 'package:avtaar_signupotp/models/UserName.dart';
 import 'package:avtaar_signupotp/pages/gender.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
-import 'package:avtaar_signupotp/widgets/base_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -30,7 +28,7 @@ class _NameState extends State<Name> {
       final size = MediaQuery.of(context).size;
 
     return Scaffold(
-     
+     resizeToAvoidBottomInset: false,
       body: 
               Stack(
             alignment: Alignment.center,
@@ -53,7 +51,7 @@ class _NameState extends State<Name> {
               'Hello !\nWhat’s your name?',
               style: TextStyle(
                 fontWeight: TextStyleComponent.SOLEIL_SEMI_BOLD,
-                fontSize: 32,
+                fontSize: size.height*0.041,
                 color: Color(0xFF282828),
                 height: 1.1, // Line height equivalent to lineSpacingExtra in Android
                 fontFamily: TextStyleComponent.SOLEIL,
@@ -122,7 +120,23 @@ class _NameState extends State<Name> {
    Positioned(
     bottom:130,
     right:20,
-    child: Forward(onPressed: (){}),
+    child: Forward(onPressed: (){
+      _validate=nameController.text.isEmpty;
+      setState(() {
+          if(!_validate){
+       //Navigator.of(context).push(MaterialPageRoute(builder: (context)));
+    
+             Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>Gender(name: nameController.text)),
+             );
+          
+    
+      }
+    
+      });
+    }),
    ),
 
     Positioned(
