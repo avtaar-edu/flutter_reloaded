@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables
+import 'package:avtaar_signupotp/components/Colors.dart';
+import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
+import 'package:avtaar_signupotp/components/customSelectBox.dart';
+import 'package:avtaar_signupotp/components/extension.dart';
 import 'package:avtaar_signupotp/models/GenderSelect.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
-import 'package:avtaar_signupotp/widgets/selection.dart';
+//import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -16,9 +20,14 @@ class Gender extends StatefulWidget {
 class _GenderState extends State<Gender> {
   String selectedGender="";
   bool _validate=false;
+  
   final TextEditingController selfDescribeController=TextEditingController();
+   void _unFocus() {
+    FocusScope.of(context).unfocus();
+  }
   void _onGenderSelected(String gender)
   {
+      _unFocus();
     setState(() {
       selectedGender=gender;
       selfDescribeController.clear();
@@ -34,183 +43,208 @@ class _GenderState extends State<Gender> {
       }
     });
   }
+ 
   @override
   void dispose()
   {
     selfDescribeController.dispose();
+      
+
     super.dispose();
   }
   _GenderState();
   @override
   Widget build(BuildContext context) {
+          final size = MediaQuery.of(context).size;
     return Scaffold(
+       resizeToAvoidBottomInset: false,
+    
       body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Padding(
+        alignment: Alignment.center,
+            clipBehavior: Clip.hardEdge,
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: SvgPicture.asset(
+                  'assets/profile-blob-t-left.svg',
+                  height: size.height * 0.34,
+                ),
+              ),
+             
+        
+          
+            
+             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 120,width:120),
+                  SizedBox(height: 170.hWise,width:200),
                    Text(
                     'Hi ${widget.name}!\nTo which gender identity do you most identify with?',
                     
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                     style: TextStyle(
+                fontWeight: TextStyleComponent.SOLEIL_SEMI_BOLD,
+                fontSize: size.height*0.041,
+                color: Color(0xFF282828),
+                height: 1.1, // Line height equivalent to lineSpacingExtra in Android
+                fontFamily: TextStyleComponent.SOLEIL,
+              ),
+              textAlign: TextAlign.left,
+            ),
                   // Add more widgets here as needed
-                 const SizedBox(height:10),
+                  SizedBox(height:25.hWise),
                      Align(alignment: Alignment.centerRight,
-  child:Column(children: [
+  child:SingleChildScrollView(child:Column(children: [
     Row(
                   //alignment:MainAxisAlignment.center,
                   children: [
                     SizedBox(width:70),
-                     SelectButton(text: 'Male', onPressed: (){
-                      _onGenderSelected("Male");
-                     
-                      //print("Male");
-                     },
-                      isSelected:selectedGender=="Male"
-                     ),
+                      CustomSelectBox(text: "Male",
+                      isSelected:selectedGender=="Male",
+                      onTap: () => _onGenderSelected("Male"),
+                      ),
                   //Padding(padding: EdgeInsets.all(20)),
-                  SizedBox(width:25),
-                  SelectButton(text: 'Female', onPressed: (){
-                     _onGenderSelected("Female");
-                                           
-                  },
-                  isSelected:selectedGender=="Female"
-
-                  ),
+                  SizedBox(width:size.width * 0.05,),
+                  
+                  CustomSelectBox(text: "Female",
+                  isSelected:selectedGender=="Female",
+                   onTap: () => _onGenderSelected("Female"),)
                   ],
                  ),
-                 SizedBox(height:15),
-                  Align(child:SelectButton(text: 'Transgender', onPressed: (){
-                     _onGenderSelected("Transgender");
-                     
-                  },
-                   isSelected:selectedGender=="Transgender"
-                  )
-                  ),
-                SizedBox(height:15),
-                  SizedBox(width:double.infinity,child:  ColoredBox(color: Color.fromARGB(255, 249, 245, 255),
+                 SizedBox(height: size.height * 0.02),
+                  CustomSelectBox(text: "Transgender",
+                  isSelected:selectedGender=="Transgender",
+                   onTap: () => _onGenderSelected("Transgender"),),
+                SizedBox(height:size.height * 0.02),
                   
-                  child:Align(child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Prefer to self-describe',
-                    contentPadding: EdgeInsets.symmetric(
-                     
-         horizontal: 5.0,
+                  
+                  Container(
+                    color: ColorCodes.cHintOfPurple,
+                    width: 250,
+                    height: 50,
+                    child: TextField(
+                      style: TextStyleComponent.normalBlack16,
+                      controller: selfDescribeController,
+                      
+                      textAlign: TextAlign.center,
+                      cursorColor: ColorCodes.cBluePurple,
+                      
+                      decoration: InputDecoration(
+                        errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorCodes.cOrange,
+                          ),
+                        ),
+                        hintText: "Prefer to self-describe",
+                        hintStyle: TextStyleComponent.dBluePurple(
+                                fontSize: size.height * 0.022),
+
+                  enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorCodes.cBluePurple,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorCodes.cBluePurple,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  cursorColor: Color.fromARGB(255, 99, 11, 255),
-                  onChanged: _onSelfDescribeChanged,
-                  ),
-                  ),
-                    ), 
-                    ),
+                 
                   
-                    SizedBox(height:15),
-                  Align(child:SelectButton(text: 'Prefer not to say', onPressed: (){
-                     _onGenderSelected("Prefer Not to Say");   
-                  },
-                    isSelected:selectedGender=="Prefer Not to Say"
-                  )
-                  ),
+                    SizedBox(height:size.height * 0.02),
+                  CustomSelectBox(text: "Prefer to not to say",                     
+                  isSelected:selectedGender=="Prefer not to say",
+                   onTap: () => _onGenderSelected("Prefer not to say"),)
   ],)
   ),
    
-               
- const SizedBox(height: 85,),
- 
-  
- Align(alignment: Alignment.bottomRight,
- child:Forward(
-  onPressed: () {
-    GenderSelect genderSelect=GenderSelect(gender:selectedGender);
-    _validate=selectedGender.isEmpty;
-    setState(() {
-    
-      if(!_validate){
-       //Navigator.of(context).push(MaterialPageRoute(builder: (context)));
-      sendGender(genderSelect);
-      Navigator.pushNamed(context, 'edu');
-      }
-    });
-  },
- ),
- ),
- 
-SizedBox(height: 70,),
+                     ),     
+
                 ],
               ),
             ),
-          ),
-          Align(alignment: Alignment.bottomLeft,
-child: SvgPicture.asset(
-                'assets/profile-blob-b-left.svg',
-                fit: BoxFit.contain,
-              ),
-              ),
-     Align(alignment: Alignment.bottomRight,
- child:SvgPicture.asset('assets/profile-blob-b-right.svg'),
- ),    
           
-          Positioned(
-            top: 20,
-            left: 10,
-            child: Container(
-              height: 140,
-              width: 140,
-              padding: const EdgeInsets.all(0.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                // Add any other decoration properties you need
-              ),
-              child: SvgPicture.asset(
-                'assets/profile-blob-t-left.svg',
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
+          
+          
             Positioned(
-            top: 290,
-            right: -50,
-            child: Container(
-              height: 140,
-              width: 140,
-              padding: const EdgeInsets.all(0.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                // Add any other decoration properties you need
-              ),
-              child: SvgPicture.asset(
-                'assets/profile-blob-c-right.svg',
-                fit: BoxFit.contain,
-              ),
-            ),
-          ), 
-          Positioned(
-            bottom:50,
+             top: size.height * 0.44,
+                  right: 0,
+                  child: SvgPicture.asset(
+                    'assets/profile-blob-c-right.svg',
+                  ),
+                  height: size.height * 0.18,
+                  
+                ),
+          
+   Positioned(
+            bottom:60,
             left:20,
+            right:22,
             child: 
             SizedBox(child:  
             Align(
               alignment: Alignment.bottomCenter,
-              child:LinearProgressIndicator(backgroundColor: Color.fromARGB(255, 243, 241, 241),
- color: Colors.yellow,
- value: 0.25 ,)
+              child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: LinearProgressIndicator(
+              backgroundColor: ColorCodes.cProgressBarGrey,
+              value: 0.175,
+              minHeight: 5,
+              valueColor: AlwaysStoppedAnimation(ColorCodes.cProgressBarYellow),
+            ),
+          ),
             ),
            width: MediaQuery.of(context).size.width*0.9,
  ),
  
 
  ),
-        ],
+   Positioned(
+    bottom:130,
+    right:20,
+    child: Forward( onPressed: () {
+    GenderSelect genderSelect=GenderSelect(gender:selectedGender);
+    _validate=selectedGender.isEmpty;
+    setState(() {
+    
+      if(!_validate){
+       //Navigator.of(context).push(MaterialPageRoute(builder: (context)));
+      //sendGender(genderSelect);
+      Navigator.pushNamed(context, 'edu');
+      }
+    });
+    }
+   ),
+   ),
+
+    Positioned(
+      bottom: 10,
+      left:-3,
+    
+ child:SvgPicture.asset('assets/profile-blob-b-left.svg',
+ height:20.hWise
+ 
+ ),
+ 
+ ),    
+     Positioned(
+      bottom: 10,
+      right:-3,
+    
+ child:SvgPicture.asset('assets/profile-blob-b-right.svg',
+ height:57.hWise
+ 
+ ),
+ 
+ ),       
+    
+      ],
       ),
-    );
+      );
+    
   }
 }

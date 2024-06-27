@@ -1,6 +1,8 @@
 //import 'package:avtaar/constants/BottomNavEnums.dart';
 //import 'package:avtaar_signuotp/constants/StringConstants.dart' as StringConstants;
 
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 
 import '../main.dart';
