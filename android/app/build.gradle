@@ -30,10 +30,14 @@ android {
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
     
+    compileOptions {
+    sourceCompatibility 1.8
+    targetCompatibility 1.8
+}
     
 
     kotlinOptions {
-        jvmTarget = '21'
+        jvmTarget = '1.8'
     }
 
     sourceSets {
@@ -46,7 +50,7 @@ android {
         applicationId "com.example.avtaar_signupotp"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -70,8 +74,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.8.1')
     implementation 'com.google.firebase:firebase-auth:19.4.0'
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.android.support:multidex:2.0.1'
+
     
 }
-configurations.implementation {
-exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
-}
+

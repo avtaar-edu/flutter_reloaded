@@ -24,7 +24,7 @@ _selectedPosition=posn;
 }
 String txt="";
   List<Widget> _schoolWidget(Size size) => [
-
+SizedBox(height:size.height*0.0025),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -84,6 +84,7 @@ String txt="";
       ];
 
   List<Widget> _collegeWidget(Size size) => [
+    SizedBox(height:size.height*0.02),
         CustomSelectBox(
           onTap: () => _positionSelected(ProfileCollegeDegreeEnum.diploma),
           text: ProfileCollegeDegreeEnum.diploma,
@@ -111,23 +112,34 @@ String txt="";
       ];
 
   List<Widget> _workingWidget(Size size) => [
+    SizedBox(height:size.height*0.01),
         FittedBox(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              
+               Container( child:
               CustomSelectBox(
                 onTap: () => _positionSelected(ProfileWorkExEnum.year1),
                 text: ProfileWorkExEnum.year1,
                 isSelected: _selectedPosition == ProfileWorkExEnum.year1,
               ),
-              SizedBox(
+               ),
+               Container(
+              child:SizedBox(
                 width: size.width * 0.039,
               ),
+               ),
+               Container(
+                child:
               CustomSelectBox(
                 onTap: () => _positionSelected(ProfileWorkExEnum.year1to5),
                 text: ProfileWorkExEnum.year1to5,
                 isSelected: _selectedPosition == ProfileWorkExEnum.year1to5,
               )
+               )
+          
+          
             ],
           ),
         ),
@@ -144,7 +156,7 @@ String txt="";
                 isSelected: _selectedPosition == ProfileWorkExEnum.year5to10,
               ),
               SizedBox(
-                width: 20,
+                width: size.width * 0.039,
               ),
               CustomSelectBox(
                 onTap: () => _positionSelected(ProfileWorkExEnum.year10),
@@ -157,8 +169,9 @@ String txt="";
       ];
 
   List<Widget> _transitionWidget(Size size) => [
+     SizedBox(height:size.height*0.055),
         Container(
-          width: size.width,
+          width: size.width*0.95,
           child: CustomSelectBox(
             onTap: () =>
                 _positionSelected(ProfileTransitionFromEnum.finishedSchool),
@@ -171,7 +184,7 @@ String txt="";
           height: size.height * 0.014,
         ),
         Container(
-          width: size.width,
+          width: size.width*0.95,
           child: CustomSelectBox(
             onTap: () =>
                 _positionSelected(ProfileTransitionFromEnum.finishedUG),
@@ -184,7 +197,7 @@ String txt="";
           height: size.height * 0.014,
         ),
         Container(
-          width: size.width,
+          width: size.width*0.95,
           child: CustomSelectBox(
             onTap: () =>
                 _positionSelected(ProfileTransitionFromEnum.finishedPG),
@@ -197,7 +210,7 @@ String txt="";
           height: size.height * 0.014,
         ),
         Container(
-          width: size.width,
+          width: size.width*0.95,
           child: CustomSelectBox(
             onTap: () =>
                 _positionSelected(ProfileTransitionFromEnum.breakFromWork),
@@ -249,7 +262,7 @@ class _ProfileWorkPositionState extends State<ProfileWorkPosition> {
           
             
              Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 27),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 23),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -261,14 +274,19 @@ class _ProfileWorkPositionState extends State<ProfileWorkPosition> {
                      //overflow: TextOverflow.clip,
                      textAlign: TextAlign.left,
                      
-                     )
-            
-                ],
+                     ),
+                     ],
               ),
              ),
-
-          Center(
+ Positioned(
+      top: size.height * 0.37, 
+      left: 0, // Adjust as needed
+      right: 0, 
+          child:Center(
+             child: Padding(
+    padding: EdgeInsets.only(top: 0),
           child:Column(
+
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -277,7 +295,8 @@ class _ProfileWorkPositionState extends State<ProfileWorkPosition> {
       selectedWidget,
       ),
         ), 
-
+          ),
+ ),
     Positioned(
             bottom:60,
             left:20,

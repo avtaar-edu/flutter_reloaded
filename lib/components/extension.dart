@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this
+
 import 'package:avtaar_signupotp/components/Colors.dart';
 import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
 import 'package:avtaar_signupotp/components/app_singleton.dart';
