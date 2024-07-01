@@ -173,10 +173,10 @@ class _GenderState extends State<Gender> {
             Positioned(
              top: size.height * 0.44,
                   right: 0,
+                  height: size.height * 0.18,
                   child: SvgPicture.asset(
                     'assets/profile-blob-c-right.svg',
                   ),
-                  height: size.height * 0.18,
                   
                 ),
           
@@ -185,7 +185,7 @@ class _GenderState extends State<Gender> {
             left:20,
             right:22,
             child: 
-            SizedBox(child:  
+            SizedBox(width: MediaQuery.of(context).size.width*0.9,child:  
             Align(
               alignment: Alignment.bottomCenter,
               child: ClipRRect(
@@ -198,7 +198,6 @@ class _GenderState extends State<Gender> {
             ),
           ),
             ),
-           width: MediaQuery.of(context).size.width*0.9,
  ),
  
 

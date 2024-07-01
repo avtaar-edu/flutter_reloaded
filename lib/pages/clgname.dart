@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
 
 //import 'package:avtaar_signupotp/pages/gender.dart';
@@ -120,14 +120,13 @@ class _CollegeState extends State<CollegeName> {
             bottom:50,
             left:20,
             child: 
-            SizedBox(child:  
+            SizedBox(width: MediaQuery.of(context).size.width*0.9,child:  
             Align(
               alignment: Alignment.bottomCenter,
               child:LinearProgressIndicator(backgroundColor: Color.fromARGB(255, 243, 241, 241),
  color: Colors.yellow,
  value: 0.87 ,)
             ),
-           width: MediaQuery.of(context).size.width*0.9,
  ),
  
 

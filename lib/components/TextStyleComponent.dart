@@ -207,6 +207,7 @@ class TextStyleComponent {
         color: Colors.black,
         fontFamily: SOLEIL,
         fontSize: fontSize,
+        height:1.2,
         fontWeight: SOLEIL_SEMI_BOLD,
       );
   static TextStyle dHint({required double fontSize}) => TextStyle(
