@@ -127,11 +127,11 @@ class ProfileTransitionFromEnum {
 }
 
 class ProfileCollegeYearEnum {
-  static const String first = '1st Year';
-  static const String second = '2nd Year';
-  static const String third = '3rd Year';
-  static const String fourth = '4th Year';
-  static const String fifth = '5th Year';
+  static const String first = '1st year';
+  static const String second = '2nd year';
+  static const String third = '3rd year';
+  static const String fourth = '4th year';
+  static const String fifth = '5th year';
 
   static List<String> getAll() {
     return [first, second, third, fourth, fifth];

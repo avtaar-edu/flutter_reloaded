@@ -1,4 +1,12 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables
+import 'package:avtaar_signupotp/components/Colors.dart';
+import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
+import 'package:avtaar_signupotp/components/customSelectBox.dart';
+import 'package:avtaar_signupotp/components/customSelectBoxYear.dart';
+import 'package:avtaar_signupotp/components/extension.dart';
+import 'package:avtaar_signupotp/constants/ProfileEnums.dart';
+import 'package:avtaar_signupotp/constants/StringConstants.dart' as StringConstants;
+import 'package:avtaar_signupotp/pages/permissions.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
@@ -13,22 +21,32 @@ class Board1 extends StatefulWidget {
 }
 
 class _Board1State extends State<Board1> {
-  String selectedBoard1="";
+  String _icse="";
+   String _cbse="";
+   String _state="";
+   String _ib="";
+  late bool _over10th;
+  bool _boardSelected = false;
+  String _selectedBoard1 = StringConstants.EMPTY_STRING;
+  TextEditingController? _textEditingController;
   bool _validate=false;
   final TextEditingController selfDescribeController=TextEditingController();
-  void _onBoard1Selected(String Board1)
+  void _selectBoard(String Board1)
   {
+    
     setState(() {
-      selectedBoard1=Board1;
+      _selectedBoard1=Board1;
+      
+      Navigator.pushNamed(context, 'permission');
       selfDescribeController.clear();
     });
   }
   void _onSelfDescribeChanged(String value)
   {
     setState(() {
-      selectedBoard1=value;
+      _selectedBoard1=value;
       if(value.isNotEmpty){
-        selectedBoard1=value;
+        _selectedBoard1=value;
       
       }
     });
@@ -42,178 +60,180 @@ class _Board1State extends State<Board1> {
   _Board1State();
   @override
   Widget build(BuildContext context) {
+     final size = MediaQuery.of(context).size;
+    var errorText;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.hardEdge,
         children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 120,width:120),
-                   Text(
-                    'Select your School Board',
-                    
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  // Add more widgets here as needed
-                 const SizedBox(height:10),
-                     Align(alignment: Alignment.centerRight,
-  child:Column(children: [
-    Row(
-                  //alignment:MainAxisAlignment.center,
-                  children: [
-                    SizedBox(width:70),
-                     SelectButton(text: 'ICSE', onPressed: (){
-                      _onBoard1Selected("ICSE");
-                     
-                      //print("ICSE");
-                     },
-                      isSelected:selectedBoard1=="ICSE"
-                     ),
-                  //Padding(padding: EdgeInsets.all(20)),
-                  SizedBox(width:25),
-                  SelectButton(text: 'CBSE', onPressed: (){
-                     _onBoard1Selected("CBSE");
-                                           
-                  },
-                  isSelected:selectedBoard1=="CBSE"
-
-                  ),
-                  ],
-                 ),
-                 SizedBox(height:15),
-        Row(
-                  //alignment:MainAxisAlignment.center,
-                  children: [
-                    SizedBox(width:40),
-                     SelectButton(text: 'State Board', onPressed: (){
-                      _onBoard1Selected("State Board");
-                     
-                      //print("ICSE");
-                     },
-                      isSelected:selectedBoard1=="State Board"
-                     ),
-                  //Padding(padding: EdgeInsets.all(20)),
-                  SizedBox(width:25),
-                  SelectButton(text: 'IGSCE/MYP', onPressed: (){
-                     _onBoard1Selected("IGSCE/MYP");
-                                           
-                  },
-                  isSelected:selectedBoard1=="IGSCE/MYP"
-
-                  ),
-                  ],
-                 ),
-                 
-                   SizedBox(height:15),
-                  SizedBox(width:double.infinity,child:  ColoredBox(color: Color.fromARGB(255, 249, 245, 255),
-                  
-                  child:Align(child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Others',
-                    contentPadding: EdgeInsets.symmetric(
-                     
-         horizontal: 5.0,
-                    ),
-                  ),
-                  cursorColor: Color.fromARGB(255, 99, 11, 255),
-                  onChanged: _onSelfDescribeChanged,
-                  ),
-                  ),
-                    ), 
-                    ),
-                  
-  ],)
-  ),
-   
-               
- const SizedBox(height: 85,),
- 
-  
- Align(alignment: Alignment.bottomRight,
- child:Forward(
-  onPressed: () {
-    _validate=selectedBoard1.isEmpty;
-    setState(() {
-    
-      if(!_validate){
-       
-      Navigator.pushNamed(context, 'permission');
-      }
-    });
-  },
- ),
- ),
- 
-SizedBox(height: 70,),
-                ],
-              ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: SvgPicture.asset(
+              'assets/profile-blob-t-left.svg',
+              height: size.height * 0.34,
             ),
           ),
-          Align(alignment: Alignment.bottomLeft,
-child: SvgPicture.asset(
-                'assets/profile-blob-b-left.svg',
-                fit: BoxFit.contain,
+        
+  Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 190.hWise, width: 200),
+                Text(
+                 StringConstants.SELECT_YOUR_SCHOOL_BOARD,
+                  style: TextStyle(
+                    fontWeight: TextStyleComponent.SOLEIL_SEMI_BOLD,
+                    fontSize: size.height * 0.040,
+                    color: Color(0xFF282828),
+                    height: 1.2, // Line height equivalent to lineSpacingExtra in Android
+                    fontFamily: TextStyleComponent.SOLEIL,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+    SizedBox(height:40.hWise),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                   
+                  CustomSelectBox(text: "  "+ProfileSchoolBoardEnum.icse+"  ",
+                  
+                onTap: ()=>_selectBoard("icse"),
+                isSelected:_selectedBoard1=='icse',
+                  ),
+                  SizedBox(width: size.width*0.085,),
+                  CustomSelectBox(text: ProfileSchoolBoardEnum.cbse,
+                    
+                onTap: ()=>_selectBoard("cbse"),
+                 isSelected:_selectedBoard1=='cbse',
+                  ),
+                ],),
+                SizedBox(
+                    height: size.height * 0.025,
+                  ),
+                   Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(width: size.width*0.04,),
+                  CustomSelectBoxYear(text: ProfileSchoolBoardEnum.state,
+                    
+                onTap: ()=>_selectBoard("state"),
+                 isSelected:_selectedBoard1=='state',
+                  ),
+                  SizedBox(width: size.width*0.065,),
+                  CustomSelectBoxYear(text: ProfileSchoolBoardEnum.igcse,
+                    
+                onTap: ()=>_selectBoard("igcse"),
+                 isSelected:_selectedBoard1=='igcse',
+                  ),
+                ],
+                
+                ),
+                SizedBox(
+                    height: size.height * 0.025,
+                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                Container(
+                    color: ColorCodes.cHintOfPurple,
+                    width: size.width*0.4,
+                    height: 50,
+                    child: TextField(
+                      style: TextStyleComponent.normalBlack16,
+                      controller: selfDescribeController,
+                      
+                      textAlign: TextAlign.center,
+                      cursorColor: ColorCodes.cBluePurple,
+                      
+                      decoration: InputDecoration(
+                        errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorCodes.cOrange,
+                          ),
+                        ),
+                        
+                        hintText: "Others",
+                        hintStyle: TextStyleComponent.dBluePurple(
+                                fontSize: size.height * 0.022),
+
+                  enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorCodes.cBluePurple,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorCodes.cBluePurple,
+                          ),
+                        ),
+                      ),
+                      onChanged: _onSelfDescribeChanged,
+                    ),
+                  ),
+               ], ),
+              ],
+            ),
+  ),
+          Positioned(
+            top: size.height * 0.65,
+            left: 0,
+            child: SvgPicture.asset(
+              'assets/profile-blob-c-left.svg',
+              height: size.height * 0.186,
+            ),
+          ),
+          Positioned(
+            bottom: 60,
+            left: 20,
+            right: 22,
+            child: SizedBox(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: LinearProgressIndicator(
+                    backgroundColor: ColorCodes.cProgressBarGrey,
+                    value: 0.659,
+                    minHeight: 5,
+                    valueColor: AlwaysStoppedAnimation(ColorCodes.cProgressBarYellow),
+                  ),
+                ),
               ),
+              width: MediaQuery.of(context).size.width * 0.9,
+            ),
+          ),
+          Positioned(
+            bottom: 130,
+            right: 20,
+            child: Forward(
+              onPressed: (){}),
               ),
-     Align(alignment: Alignment.bottomRight,
- child:SvgPicture.asset('assets/profile-blob-b-right.svg'),
- ),    
           
           Positioned(
-            top: 20,
-            left: 10,
-            child: Container(
-              height: 140,
-              width: 140,
-              padding: const EdgeInsets.all(0.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                // Add any other decoration properties you need
-              ),
-              child: SvgPicture.asset(
-                'assets/profile-blob-t-left.svg',
-                fit: BoxFit.contain,
-              ),
+            bottom: 10,
+            left: -3,
+            child: SvgPicture.asset(
+              'assets/profile-blob-b-left.svg',
+              height: 20.hWise,
             ),
           ),
-            Positioned(
-            top: 290,
-            right: -50,
-            child: Container(
-              height: 140,
-              width: 140,
-              padding: const EdgeInsets.all(0.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                // Add any other decoration properties you need
-              ),
-              
-            ),
-          ), 
           Positioned(
-            bottom:50,
-            left:20,
-            child: 
-            SizedBox(child:  
-            Align(
-              alignment: Alignment.bottomCenter,
-              child:LinearProgressIndicator(backgroundColor: Color.fromARGB(255, 243, 241, 241),
- color: Colors.yellow,
- value: 0.25 ,)
+            bottom: 10,
+            right: -3,
+            child: SvgPicture.asset(
+              'assets/profile-blob-b-right.svg',
+              height: 57.hWise,
             ),
-           width: MediaQuery.of(context).size.width*0.9,
- ),
- 
-
- ),
+          ),
         ],
+      
+  
+        
       ),
+
     );
   }
 }
