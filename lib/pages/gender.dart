@@ -20,14 +20,9 @@ class Gender extends StatefulWidget {
 class _GenderState extends State<Gender> {
   String selectedGender="";
   bool _validate=false;
-  
   final TextEditingController selfDescribeController=TextEditingController();
-   void _unFocus() {
-    FocusScope.of(context).unfocus();
-  }
   void _onGenderSelected(String gender)
   {
-      _unFocus();
     setState(() {
       selectedGender=gender;
       selfDescribeController.clear();
@@ -39,17 +34,14 @@ class _GenderState extends State<Gender> {
       selectedGender=value;
       if(value.isNotEmpty){
         selectedGender=value;
-      
+
       }
     });
   }
- 
   @override
   void dispose()
   {
     selfDescribeController.dispose();
-      
-
     super.dispose();
   }
   _GenderState();
@@ -151,6 +143,7 @@ class _GenderState extends State<Gender> {
                           ),
                         ),
                       ),
+                      onChanged: _onSelfDescribeChanged,
                     ),
                   ),
                  
@@ -205,19 +198,22 @@ class _GenderState extends State<Gender> {
    Positioned(
     bottom:130,
     right:20,
-    child: Forward( onPressed: () {
-    GenderSelect genderSelect=GenderSelect(gender:selectedGender);
+    child:  Forward(
+  onPressed: selectedGender==""?null:() {
     _validate=selectedGender.isEmpty;
     setState(() {
-    
+
       if(!_validate){
        //Navigator.of(context).push(MaterialPageRoute(builder: (context)));
-      //sendGender(genderSelect);
       Navigator.pushNamed(context, 'edu');
       }
+      else{
+        
+      }
     });
-    }
-   ),
+  },
+ ),
+ 
    ),
 
     Positioned(

@@ -17,11 +17,38 @@ class ProfileWorkPosition extends StatefulWidget {
   State<ProfileWorkPosition> createState() => _ProfileWorkPositionState();
 }
 
-var _selectedPosition="";
-void _positionSelected(String posn)
+
+class _ProfileWorkPositionState extends State<ProfileWorkPosition> {
+  @override
+  Widget build(BuildContext context) {
+    Size size=MediaQuery.of(context).size;
+   var _selectedPosition="";
+   bool _over10th;
+    List<Widget> selectedWidget=[];
+    void _positionSelected(String posn)
 {
-_selectedPosition=posn;
+setState(() {
+  _selectedPosition=posn;
+  
+if(posn=='Grade 8'||posn=='Grade 9'||posn=='Grade 10'||posn=='Grade 11'||posn=='Grade 12')
+{
+  
+  Navigator.pushNamed(context, 'school');
 }
+
+else if(posn==ProfileCollegeDegreeEnum.diploma||posn==ProfileCollegeDegreeEnum.underGraduate||posn==ProfileCollegeDegreeEnum.postGraduate)
+{
+
+  Navigator.pushNamed(context, 'clgyr');
+}
+
+}
+
+);
+
+}
+
+
 String txt="";
   List<Widget> _schoolWidget(Size size) => [
 SizedBox(height:size.height*0.0025),
@@ -35,6 +62,7 @@ SizedBox(height:size.height*0.0025),
               onTap: () => _positionSelected(ProfileSchoolGradeEnum.grade8),
               text: ProfileSchoolGradeEnum.grade8,
               isSelected: _selectedPosition == ProfileSchoolGradeEnum.grade8,
+              
             ),
             SizedBox(
               width: size.width * 0.05,
@@ -220,12 +248,6 @@ SizedBox(height:size.height*0.0025),
           ),
         ),
       ];
-class _ProfileWorkPositionState extends State<ProfileWorkPosition> {
-  @override
-  Widget build(BuildContext context) {
-    Size size=MediaQuery.of(context).size;
-    List<Widget> selectedWidget=[];
-    
     switch(widget.selectedEducation){
       case "SCHOOL":
         txt=StringConstants.WHICH_GRADE_SCHOOL;

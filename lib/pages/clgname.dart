@@ -1,136 +1,160 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors
 
-
-//import 'package:avtaar_signupotp/pages/gender.dart';
-import 'package:avtaar_signupotp/models/College.dart';
+import 'package:avtaar_signupotp/components/Colors.dart';
+import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
+import 'package:avtaar_signupotp/components/extension.dart';
+import 'package:avtaar_signupotp/constants/StringConstants.dart' as SC;
+import 'package:avtaar_signupotp/pages/board1.dart';
+import 'package:avtaar_signupotp/pages/permissions.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CollegeName extends StatefulWidget {
-  String degree, year;
-  
-  CollegeName({super.key, required this.degree, required this.year});
+  const CollegeName({super.key});
 
   @override
-  State<CollegeName> createState() => _CollegeState();
+  State<CollegeName> createState() => _CollegeNameState();
 }
 
-class _CollegeState extends State<CollegeName> {
-  final TextEditingController CollegeController = TextEditingController();
-  bool _validate=false;
-  bool isDisabled=true;
-  var College1="";
-  var errorText="";
+class _CollegeNameState extends State<CollegeName> {
+  final TextEditingController CollegeNameController = TextEditingController();
+  bool _validate = false;
+  bool _submitted = false;
+  String? errorText;
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.hardEdge,
         children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 120,width:120),
-                  const Text(
-                    'Where do you study?',
-                    style: TextStyle(
-                      fontSize: 32,
+          Align(
+            alignment: Alignment.topLeft,
+            child: SvgPicture.asset(
+              'assets/profile-blob-t-left.svg',
+              height: size.height * 0.34,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 200.hWise, width: 200),
+                Text(
+                 SC.WHERE_DO_YOU_STUDY,
+                  style: TextStyle(
+                    fontWeight: TextStyleComponent.SOLEIL_SEMI_BOLD,
+                    fontSize: size.height * 0.037,
+                    color: Color(0xFF282828),
+                    height: 1.2, // Line height equivalent to lineSpacingExtra in Android
+                    fontFamily: TextStyleComponent.SOLEIL,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(height: 80),
+                TextField(
+                  controller: CollegeNameController,
+                  onChanged: (value) {
+                    setState(() {
+                      _validate = value.isEmpty;
+                      _submitted = false;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'College',
+                    hintStyle: TextStyle(
+                      color: Color.fromARGB(255, 146, 146, 146),
+                      fontSize: 17,
+                      height: 1,
+                      fontFamily: TextStyleComponent.SOLEIL,
                       fontWeight: FontWeight.bold,
                     ),
+                    errorText: _submitted ? errorText : null,
+                    contentPadding: EdgeInsets.all(0), // Adjust these values as needed
                   ),
-                  // Add more widgets here as needed
-                  const SizedBox(height: 20),
-                    TextField(
-                        controller: CollegeController,
-                        
-                        onChanged: (value){
-                         College1=value;
-                        },
-                        decoration: InputDecoration(
-                          focusColor: Colors.blue.shade100,
-                         hintText: 'College',
-                          errorText:_validate?"Please enter your College name":"",
-                          
-                        ),
-                         cursorColor: Color.fromARGB(255, 99, 11, 255),
-                        
-                        
-                    ),
-                   
- const SizedBox(height: 100,),
-  SvgPicture.asset(
-                'assets/profile-blob-c-left.svg',
-                fit: BoxFit.contain,
-              ),
- Align(alignment: Alignment.bottomRight,
- child:Forward(
-  onPressed: () {
-    setState(() {
-      
-      _validate=CollegeController.text.isEmpty;
-      if(!_validate){
-         College1=CollegeController.text;
-        College clg=College(degree:widget.degree, name: College1, year: widget.year);
-        sendCollege(clg);
-       //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Gender(College: CollegeController.text)));
-       Navigator.pushNamed(context, 'permission');
-      }
-      
-    });
-  },
- ),
- ),
- //SizedBox(height: 65,),
- 
- SizedBox(height: 70,),
- 
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-           Align(alignment: Alignment.bottomLeft,
- child:SvgPicture.asset('assets/profile-blob-b-left.svg'),
- ),   
-     Align(alignment: Alignment.bottomRight,
- child:SvgPicture.asset('assets/profile-blob-b-right.svg'),
- ),    
-          
           Positioned(
-            top: 20,
-            left: 10,
-            child: Container(
-              height: 140,
-              width: 140,
-              padding: const EdgeInsets.all(0.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                // Add any other decoration properties you need
-              ),
-              child: SvgPicture.asset(
-                'assets/profile-blob-t-left.svg',
-                fit: BoxFit.contain,
-              ),
+            top: size.height * 0.65,
+            left: 0,
+            child: SvgPicture.asset(
+              'assets/profile-blob-c-left.svg',
+              height: size.height * 0.186,
             ),
           ),
-           
           Positioned(
-            bottom:50,
-            left:20,
-            child: 
-            SizedBox(width: MediaQuery.of(context).size.width*0.9,child:  
-            Align(
-              alignment: Alignment.bottomCenter,
-              child:LinearProgressIndicator(backgroundColor: Color.fromARGB(255, 243, 241, 241),
- color: Colors.yellow,
- value: 0.87 ,)
+            bottom: 60,
+            left: 20,
+            right: 22,
+            child: SizedBox(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: LinearProgressIndicator(
+                    backgroundColor: ColorCodes.cProgressBarGrey,
+                    value: 0.67,
+                    minHeight: 5,
+                    valueColor: AlwaysStoppedAnimation(ColorCodes.cProgressBarYellow),
+                  ),
+                ),
+              ),
+              width: MediaQuery.of(context).size.width * 0.9,
             ),
- ),
- 
-
- ),
+          ),
+          Positioned(
+            bottom: 130,
+            right: 20,
+            child: Forward(
+              onPressed: CollegeNameController.text.isEmpty
+                  ? null
+                  : () {
+                      setState(() {
+                        _validate = CollegeNameController.text.isEmpty;
+                        _submitted = true;
+                        if (!_validate) {
+                          Navigator.push(context, MaterialPageRoute(builder:(context)=>Permission()));
+                        }
+                         // Navigator.push(
+                            //context,
+                            /*MaterialPageRoute(
+                              //builder: (context) => Gender(CollegeName: CollegeNameController.text),
+                            ),*/
+                          //);
+                        //}
+                        
+                         else {
+                          _submitted=true;
+                          errorText = "Please enter College Name";
+                        }
+                      });
+                    },
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            left: -3,
+            child: SvgPicture.asset(
+              'assets/profile-blob-b-left.svg',
+              height: 20.hWise,
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: -3,
+            child: SvgPicture.asset(
+              'assets/profile-blob-b-right.svg',
+              height: 57.hWise,
+            ),
+          ),
         ],
       ),
     );

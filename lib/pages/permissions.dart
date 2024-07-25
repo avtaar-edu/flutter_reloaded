@@ -1,16 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
-
-import 'package:avtaar_signupotp/widgets/accept.dart';
-import 'package:avtaar_signupotp/widgets/decline.dart';
-
-
-//import 'package:avtaar_signupotp/widgets/selection.dart';
+import 'package:avtaar_signupotp/components/Colors.dart';
+import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
+import 'package:avtaar_signupotp/components/extension.dart';
+import 'package:avtaar_signupotp/pages/gender.dart';
+import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/svg.dart';
 
 class Permission extends StatefulWidget {
   const Permission({super.key});
@@ -20,170 +16,104 @@ class Permission extends StatefulWidget {
 }
 
 class _PermissionState extends State<Permission> {
-  //final TextEditingController PermissionController = TextEditingController();
-  bool? isChecked=false;
- String terms="lorem ipsum doler  sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore ma"+"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
+  final TextEditingController PermissionController = TextEditingController();
+  bool _validate = false;
+  bool _submitted = false;
+  bool isChecked=false;
+   String terms="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+;
+  String? errorText;
 
-  var Permission="";
-  var errorText="";
-   void _onDecSelected(String dec)
-  {
-    setState(() {
-      Permission=dec;
-      
-    });
-  }
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Align(child: Text('Are you sure?',
-            style: TextStyle(fontWeight: FontWeight.bold,
-            
-            ),
-            ),),
-            content: Text('This will quit the app',
-            style: TextStyle(color:Colors.grey,
-            
-            ),
-            ),
-            actions: <Widget>[
-              ElevatedButton(onPressed: (){Navigator.of(context).pop(false);}, child:Text("No", style: TextStyle(color:Colors.white),),
-              style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 99, 11, 255)),),
-              ElevatedButton(onPressed: (){SystemNavigator.pop();}, child:Text("Yes")),
-            ],
-          ),
-        )) ??
-        false;
-  }
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
+        alignment: Alignment.topLeft,
+        clipBehavior: Clip.hardEdge,
         children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height:75,width:120),
-                  const Text(
-                    'Terms & Conditions',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: SvgPicture.asset(
+              'assets/profile-blob-t-left.svg',
+              height: size.height * 0.30,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 144.hWise, width: 200),
+                Text(
+                  'Terms & Conditions',
+                  style: TextStyle(
+                    fontWeight: TextStyleComponent.SOLEIL_SEMI_BOLD,
+                    fontSize: size.height * 0.039,
+                    color: Color(0xFF282828),
+                    height: 1.1, // Line height equivalent to lineSpacingExtra in Android
+                    fontFamily: TextStyleComponent.SOLEIL,
                   ),
-                  // Add more widgets here as needed
-                  const SizedBox(height: 20),
-                   Padding(padding: EdgeInsets.all(16),
+                  textAlign: TextAlign.left,
+                ),
+               SizedBox(height: size.height*0.04,),
+                Padding(padding: EdgeInsets.all(5),
                    child: Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Color.fromARGB(255, 196,196, 196)),
-                      borderRadius:BorderRadius.circular(5.0),
+                      borderRadius:BorderRadius.circular(5),
                       ),
-                      height: 300.0,
+                      height: size.height*0.43,
                       child: Scrollbar(
                         child:SingleChildScrollView(child: Padding(padding:EdgeInsets.all(8),
-                        child:Text(terms))
+                        child:Text(terms,
+                        style:TextStyleComponent.boldBlack16
+                        ))
                         
                         ),
                       ),
-                    ),
                    ),
-                   
-                   
- const SizedBox(height: 20,),
- CheckboxListTile(value: isChecked, onChanged: (bool? _value){
-  setState(() {
-    isChecked=_value;
-  });
-  
- },
- title: Text("I agree to the terms and conditions stated above"),
- controlAffinity: ListTileControlAffinity.leading,
- activeColor: Colors.white,
- shape: RoundedRectangleBorder(
-  borderRadius: BorderRadius.circular(4),
-  
- ),
- checkColor: Colors.black,
- ),
- SizedBox(height:30),
-Row(children: [DeclineButton(text: "",onPressed: (){
-   _onDecSelected("Decline");
-   _onWillPop();
-},
-isSelected: Permission=="Decline",
-),
-SizedBox(width:40),
-AcceptButton(text: "Accept",onPressed: (){
- if(!isChecked!)
- {
-  setState(() {
-    errorText="Accept terms & conditions to proceed.";
-  });
-  
- }
- else{
-  setState(() {
-    errorText="";
-  });
- }
-},
-isChecked: isChecked!,
-),
-],
-),
-SizedBox(height:20),
+                ),
+                //const SizedBox(height:,),
+                SizedBox( height: size.height * 0.009,),
+                 ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 0),
+      leading: Transform.scale(
+        scale: 2, // Adjust this value to make the checkbox bigger or smaller
+        child: Checkbox(
+          value: isChecked,
+          onChanged: (bool? value) {
+            setState(() {
+              isChecked = value!;
+            });
+          },
+          activeColor: Colors.white,
+          checkColor: Colors.black,
+        ),
+      ),
+      title: Text(
+        "I agree to the terms and conditions stated above",
+        style: TextStyleComponent.normalBlack14,
+        
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+                 ),
 
-Align(child:Text(errorText, style: TextStyle(color: Colors.red),),),
-SizedBox(height:200),
- 
- 
-                ],
-              ),
+             ],
             ),
           ),
-           
-       
-          
-          Positioned(
-            top: 20,
-            left: 10,
-            child: Container(
-              height: 140,
-              width: 140,
-              padding: const EdgeInsets.all(0.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                // Add any other decoration properties you need
-              ),
-              child: SvgPicture.asset(
-                'assets/profile-blob-t-left.svg',
-                fit: BoxFit.contain,
-              ),
+ Positioned(
+            bottom: 0,
+            right: -3,
+            child: SvgPicture.asset(
+              'assets/profile-T&C-b-right.svg',
+              height: 65.hWise,
             ),
           ),
-            Positioned(
-            bottom:0,
-            right: 10,
-            child: Container(
-              height: 56,
-              width: 62,
-              padding: const EdgeInsets.all(0.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                // Add any other decoration properties you need
-              ),
-              child: SvgPicture.asset(
-                'assets/profile-T&C-b-right.svg',
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          
         ],
       ),
     );
