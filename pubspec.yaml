@@ -50,6 +50,7 @@ dependencies:
   flutter_web_browser: ^0.17.1
   intl: ^0.19.0
   excel: ^4.0.3
+  peanut: ^5.0.0
   
   #otp_text_field: ^1.1.3
 
