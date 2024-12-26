@@ -34,7 +34,12 @@ class TextStyleComponent {
     fontSize: 20,
     fontWeight: SOLEIL_SEMI_BOLD,
   );
-
+static const TextStyle boldBlack22 = TextStyle(
+    color: Colors.black,
+    fontFamily: SOLEIL,
+    fontSize: 22,
+    fontWeight: SOLEIL_SEMI_BOLD,
+  );
   static const TextStyle normalLightBlack12 = TextStyle(
     color: ColorCodes.cLightBlack,
     fontFamily: SOLEIL,

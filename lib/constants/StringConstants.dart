@@ -68,7 +68,7 @@ const String HOW_WELL_YOU_KNOW_WHICH_CAREER =
 const String WHY_EXPLORE_CAREER_NOW =
     'What are your main reasons for exploring careers now';
 const String SELECT_CAREER_THAT_INTEREST_YOU =
-    'Select the careers that interest you';
+    'Please select the careers that interest you';
 const String PLEASE_SELECT_AREA_OF_STUDY = 'Please select area of study';
 const String SELECT_UP_TO_7_CAREER = 'Select up to 5 careers';
 const String SEARCH_DOT3 = 'Search...';
@@ -151,7 +151,7 @@ const String YOU_CAN_ONLY_PIN = 'You can only pin 10 careers at a time.';
 const String DO_YOU_WANT_TO_PIN = 'Do you want to pin this career to DISCOVER?';
 const String ENTER_PARENTS_EMAIL_ID =
     'Please enter your parent’s Email ID so we can stay in touch';
-const String SELECT_5_CAREER = 'Select any\n careers that interest you';
+const String SELECT_5_CAREER = 'Finally! Select any\n5 careers that interest you';
 const String EMPTY_CAREER_MESSAGE =
     'Tap on careers from the list\nbelow that you want to select';
 const String ALL = 'All';

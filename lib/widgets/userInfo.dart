@@ -182,8 +182,8 @@ class _UserInfoState extends State<UserInfo> {
                     child: IconButton(
                       highlightColor: Colors.transparent,
                       onPressed: () {
-                        context.pushAndRemoveUntil(
-                            Name(),(_) => false);
+                       // context.pushAndRemoveUntil(
+                           // Name(),(_) => false);
                       },
                       icon: Icon(
                         Icons.close,

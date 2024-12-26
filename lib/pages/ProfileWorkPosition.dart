@@ -39,7 +39,7 @@ if(posn=='Grade 8'||posn=='Grade 9'||posn=='Grade 10'||posn=='Grade 11'||posn=='
 else if(posn==ProfileCollegeDegreeEnum.diploma||posn==ProfileCollegeDegreeEnum.underGraduate||posn==ProfileCollegeDegreeEnum.postGraduate)
 {
 
-  Navigator.pushNamed(context, 'clgyr');
+  Navigator.pushNamed(context, 'clgname');
 }
 
 }
