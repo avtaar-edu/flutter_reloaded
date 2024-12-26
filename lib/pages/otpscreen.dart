@@ -1,165 +1,221 @@
-// ignore_for_file: prefer_const_constructors, avoid_print, unused_import
-
+import 'dart:convert';
 import 'package:avtaar_signupotp/pages/name.dart';
-import 'package:avtaar_signupotp/pages/register_screen.dart';
 import 'package:avtaar_signupotp/widgets/custom_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:pinput/pinput.dart';
-import 'dart:async';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 
 class OtpPage extends StatefulWidget {
   const OtpPage({super.key});
 
   @override
   State<OtpPage> createState() => _OtpPageState();
-  
 }
 
 class _OtpPageState extends State<OtpPage> {
-  final FirebaseAuth auth=FirebaseAuth.instance;
-  int countDown = 59;
-  bool canResend=true;
-  //late Timer countdownTimer;
-  Timer? _timer;
-   @override
-  void initState() {
-   
-    super.initState();
-    //startTimer();
-  }
-  /*
-  void startTimer(){
-   _timer= Timer.periodic(Duration(seconds: 1), (timer) {
-   setState(() {
-      if(countDown>0){
-      //valid time
-      countDown--;
-    }else{
-      _timer?.cancel();
+  final storage = const FlutterSecureStorage();
+  String password = "";
+  String phoneNumber = "";
+Future<void> registerOrLogin(String phoneNumber, String password) async {
+  try {
+    // Check if the phone number is already in use (login)
+    bool isPhoneInUse = await isPhoneNumberInUse(phoneNumber);
+    
+    if (isPhoneInUse) {
+      // If phone is in use, call the login function
+      await login(phoneNumber, password);
+    } else {
+      // If phone is not in use, proceed with registration
+      await register(phoneNumber, password);
     }
-   });
-    });
+  } catch (e) {
+    print('Error in registerOrLogin: $e');
+    _showErrorDialog(context, 'Something went wrong: $e');
   }
- void _resendOtp(){
-   if(canResend){
-    setState(() {
-      countDown=60;
-      canResend=false;
-    });
-    startTimer(); 
-   }
+}
+
+Future<bool> isPhoneNumberInUse(String phoneNumber) async {
+  try {
+    var response = await http.post(
+      Uri.parse('http://192.168.73.171:8080/api/users/check-phone'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'phone': phoneNumber}),
+    );
+
+    if (response.statusCode == 200) {
+      // If the phone number exists, response should indicate that
+      var data = json.decode(response.body);
+      return data['exists'] ?? false; // Assume the response has an 'exists' key
+    } else {
+      throw Exception('Failed to check phone number');
+    }
+  } catch (e) {
+    print('Error checking phone number: $e');
+    return false; // In case of an error, assume phone is not in use
   }
-*/
+}
+
+  Future<void> register(String phoneNumber, String password) async {
+  final registerUrl = Uri.parse('http://192.168.73.171:8080/api/users/register');
+  try {
+    final registerResponse = await http.post(
+      registerUrl,
+      body: jsonEncode({
+        "phone": "+91 $phoneNumber",
+        "password": password,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+print(registerResponse.body);
+    if (registerResponse.statusCode == 200) {
+      final data = jsonDecode(registerResponse.body);
+      final token = data['token'];  // Token
+      final userId = data['userId'];  // userId from backend response
+
+      if (token != null && userId != null) {
+        // Save token and userId in secure storage
+        await storage.write(key: 'jwt_token', value: token);
+        await storage.write(key: 'userId', value: userId.toString());
+
+        // Navigate to the next screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Name(userId: userId)),
+        );
+      } else {
+        print("Token or userId not found in registration response.");
+      }
+    } else {
+      print("Registration failed: ${registerResponse.body}");
+    }
+  } catch (e) {
+    print('Registration Error: $e');
+  }
+}
+
+
+
+Future<void> login(String phoneNumber, String password) async {
+  final loginUrl = Uri.parse('http://192.168.73.171:8080/api/users/login');
+  try {
+    final loginResponse = await http.post(
+      loginUrl,
+      body: jsonEncode({
+        "phone": "+91 $phoneNumber",
+        "password": password,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+
+    if (loginResponse.statusCode == 200) {
+      final data = jsonDecode(loginResponse.body);
+      final token = data['token'];
+      final userId = data['userId']; // Extract userId
+
+      if (token != null && userId != null) {
+        // Save token and userId in secure storage
+        await storage.write(key: 'jwt_token', value: token);
+        await storage.write(key: 'userId', value: userId);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Name(userId: userId)),
+        );
+      } else {
+        print("Token or userId not found in login response.");
+      }
+    } else {
+      print("Login failed: ${loginResponse.body}");
+    }
+  } catch (e) {
+    print('Login Error: $e');
+  }
+}
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    var code="";
     return Scaffold(
       body: SingleChildScrollView(
         child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 25, horizontal: 35),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 200,
-                      width: 200,
-                      padding: const EdgeInsets.all(20.0),
-                      decoration: BoxDecoration(shape: BoxShape.rectangle,
-                      ),
-                      child: Image.asset("assets/logo.png",
-                        height:98,
-                        width:98,
-                      ),
+          borderRadius: BorderRadius.circular(10),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 35),
+            child: Column(
+              children: [
+                Container(
+                  height: 200,
+                  width: 200,
+                  padding: const EdgeInsets.all(20.0),
+                  child: Image.asset("assets/logo.png"),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Welcome to Avtaar',
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Enter Details',
+                  style: TextStyle(fontSize: 24, color: Colors.black),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 15),
+                TextField(
+                  onChanged: (value) => phoneNumber = value,
+                  decoration: InputDecoration(
+                    hintText: 'Enter Phone Number',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    const SizedBox(height: 20),
-                    const Text('Welcome to Avtaar',
-                        style: TextStyle(fontSize: 32,
-                            fontWeight: FontWeight.bold)
+                  ),
+                  keyboardType: TextInputType.phone,
+                ),
+                const SizedBox(height: 15),
+                TextField(
+                  onChanged: (value) => password = value,
+                  decoration: InputDecoration(
+                    hintText: 'Enter Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    const SizedBox(height: 10),
-                    const Text('OTP',
-                      style: TextStyle(fontSize: 24,
-                          color: Colors.black,
-                          ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 15,),
-                    Pinput(
-                      length: 6,
-                      showCursor: true,
-                      defaultPinTheme: PinTheme(
-                        width: 50,
-                        height:50,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
-                        color: Colors.grey.shade100,
-                        border: Border.all(
-                          color: Colors.black26,
-                        )
-                        )
-                      ),
-                      onSubmitted: (value){
-                        print(value);
-                      },
-                      onChanged: (value) {
-                        code=value;
-                      },
-                    ),
-                     SizedBox(height: 25,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        
-                        Row(
-                          children: [
-                            InkWell(
-                              onTap:(){
-                                //_resendOtp();
-                              },
-                              child:Text("Resend OTP",
-                            style: TextStyle(
-                              color: Colors.deepPurple,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            ),
-                            ),
-                            
-                          ],
-                        ),
-                        //Text(countDown>9?'00:${countDown.toString()}':'00:0${countDown.toString()}'),
-                      ],),//Row contains row and a text
-                     SizedBox(height: 15,),
-                    SizedBox(
-                      width:double.infinity,
-                      height: 40,
-                      child: CustomButton(
-                        onPressed:()async{
-                          try{PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: RegisterScreen.verify, smsCode: code);
-
-                        // Sign the user in (or link) with the credential
-                          await auth.signInWithCredential(credential);
-                          Navigator.pushNamedAndRemoveUntil(context, "home",(route)=>false);
-  
-    }
-    // ignore: empty_catches
-    catch(e){
-      print(e);
-    }
-                        },//_validatePhoneNumber,
-                        text:'Validate',
-                      ),
-                    ),
-                   
-                  ],      
-               ),
+                  ),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 25),
+                SizedBox(
+                  width: double.infinity,
+                  height: 40,
+                  child: CustomButton(
+                    onPressed: () async => await registerOrLogin(phoneNumber, password),
+                    text: 'Submit',
+                  ),
+                ),
+              ],
             ),
-
-
+          ),
         ),
-        
       ),
     );
   }

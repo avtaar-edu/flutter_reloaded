@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:avtaar_signupotp/Providers/UsernameProvider.dart';
 import 'package:avtaar_signupotp/components/Colors.dart';
 import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
 import 'package:avtaar_signupotp/components/extension.dart';
@@ -7,9 +8,13 @@ import 'package:avtaar_signupotp/pages/gender.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Name extends StatefulWidget {
-  const Name({super.key});
+  const Name({super.key, required userId});
 
   @override
   State<Name> createState() => _NameState();
@@ -17,9 +22,49 @@ class Name extends StatefulWidget {
 
 class _NameState extends State<Name> {
   final TextEditingController nameController = TextEditingController();
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+
   bool _validate = false;
-  bool _submitted = false;
   String? errorText;
+
+  Future<void> sendUsernameToBackend(String username) async {
+    final url = Uri.parse('http://192.168.73.171:8080/api/users/add-username');
+    final userId = await secureStorage.read(key: 'userId');
+    final token = await secureStorage.read(key: 'jwt_token');
+
+    if ( token == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("User ID or token not found. Please log in again.")),
+      );
+      return;
+    }
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'userId': userId,
+          'username': username,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Username saved successfully!")),
+        );
+      } else {
+        throw Exception("Failed to save username: ${response.body}");
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +95,7 @@ class _NameState extends State<Name> {
                     fontWeight: TextStyleComponent.SOLEIL_SEMI_BOLD,
                     fontSize: size.height * 0.041,
                     color: Color(0xFF282828),
-                    height: 1.1, // Line height equivalent to lineSpacingExtra in Android
+                    height: 1.1,
                     fontFamily: TextStyleComponent.SOLEIL,
                   ),
                   textAlign: TextAlign.left,
@@ -61,7 +106,7 @@ class _NameState extends State<Name> {
                   onChanged: (value) {
                     setState(() {
                       _validate = value.isEmpty;
-                      _submitted = false;
+                      errorText = null; // Clear error text on input
                     });
                   },
                   decoration: InputDecoration(
@@ -73,8 +118,8 @@ class _NameState extends State<Name> {
                       fontFamily: TextStyleComponent.SOLEIL,
                       fontWeight: FontWeight.bold,
                     ),
-                    errorText: _submitted ? errorText : null,
-                    contentPadding: EdgeInsets.all(0), // Adjust these values as needed
+                    errorText: _validate ? errorText : null,
+                    contentPadding: EdgeInsets.all(0),
                   ),
                 ),
               ],
@@ -114,22 +159,22 @@ class _NameState extends State<Name> {
             child: Forward(
               onPressed: nameController.text.isEmpty
                   ? null
-                  : () {
+                  : () async {
                       setState(() {
                         _validate = nameController.text.isEmpty;
-                        _submitted = true;
-                        if (!_validate) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Gender(name: nameController.text),
-                            ),
-                          );
-                        } else {
-                          _submitted=true;
-                          errorText = "Please enter name";
-                        }
+                        errorText = _validate ? "Please enter a name" : null;
                       });
+
+                      if (!_validate) {
+                        context.read<UsernameProvider>().setUsername(nameController.text); // Store locally
+                        await sendUsernameToBackend(nameController.text); // Send to backend
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Gender(name: nameController.text),
+                          ),
+                        );
+                      }
                     },
             ),
           ),

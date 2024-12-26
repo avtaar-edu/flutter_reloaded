@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables
+import 'package:avtaar_signupotp/Providers/GenderProvider.dart';
 import 'package:avtaar_signupotp/components/Colors.dart';
 import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
 import 'package:avtaar_signupotp/components/customSelectBox.dart';
@@ -8,6 +9,7 @@ import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 //import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class Gender extends StatefulWidget {
   final String name;
@@ -204,8 +206,12 @@ class _GenderState extends State<Gender> {
     setState(() {
 
       if(!_validate){
-       //Navigator.of(context).push(MaterialPageRoute(builder: (context)));
+    
+  context.read<GenderProvider>().setGender(selectedGender); // Sets the gender
+  //context.read<GenderProvider>().submitGender(); // Submits the gender
+ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You selected: $selectedGender")));
       Navigator.pushNamed(context, 'edu');
+     
       }
       else{
         

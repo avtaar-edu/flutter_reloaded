@@ -28,23 +28,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.initState();
   }
 
-  Future<void> verifyPhone() async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: '${countryController.text + phoneController.text}',
-      verificationCompleted: (PhoneAuthCredential credential) {},
-      verificationFailed: (FirebaseAuthException e) {},
-      codeSent: (String verificationId, int? resendToken) {
-        RegisterScreen.verify = verificationId;
-        LinearProgressIndicator();
-        Phone phone1 = Phone(
-          phone: '${countryController.text + phoneController.text}',
-        );
-        Navigator.pushNamed(context, 'otp');
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
-  }
-
   void _validatePhoneNumber() {
     setState(() {
       _submitted = true;
@@ -52,7 +35,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         errorText = 'Please enter a valid mobile number';
       } else {
         errorText = null;
-        verifyPhone();
+ Phone phone1 = Phone(
+          phone: '${countryController.text + phoneController.text}',
+        );
+        //sendPhone(phone1);
+        Navigator.pushNamed(context, 'otp');
+       
+        //verifyPhone();
       }
     });
   }

@@ -22,7 +22,8 @@ class Phone {
   }
 }
 Future<void> sendPhone(Phone phone) async {
-  final url = Uri.parse(baseURL+'/save'); // Replace with your API endpoint
+  final url = Uri.parse(baseURL+'/register'); // Replace with your API endpoint
+  
 
   final response = await http.post(
     url,
@@ -33,7 +34,7 @@ Future<void> sendPhone(Phone phone) async {
   );
 
   if (response.statusCode == 200) {
-    print('name submitted successfully');
+    print('phone submitted successfully');
   } else {
     print('Failed to submit name: ${response.statusCode}');
   }
