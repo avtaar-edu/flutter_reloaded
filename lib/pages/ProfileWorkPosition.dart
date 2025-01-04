@@ -3,6 +3,7 @@ import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
 import 'package:avtaar_signupotp/components/customSelectBox.dart';
 import 'package:avtaar_signupotp/components/extension.dart';
 import 'package:avtaar_signupotp/constants/ProfileEnums.dart';
+import 'package:avtaar_signupotp/pages/permissions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -39,9 +40,17 @@ if(posn=='Grade 8'||posn=='Grade 9'||posn=='Grade 10'||posn=='Grade 11'||posn=='
 else if(posn==ProfileCollegeDegreeEnum.diploma||posn==ProfileCollegeDegreeEnum.underGraduate||posn==ProfileCollegeDegreeEnum.postGraduate)
 {
 
-  Navigator.pushNamed(context, 'clgname');
+  Navigator.pushNamed(context, 'clgyr');
 }
+else if(posn==ProfileTransitionFromEnum.breakFromWork||posn==ProfileTransitionFromEnum.finishedPG||posn==ProfileTransitionFromEnum.finishedUG||posn==ProfileTransitionFromEnum.finishedSchool)
+{
 
+  Navigator.pushNamed(context, 'permission');
+}
+else if(posn==ProfileWorkExEnum.year1||posn==ProfileWorkExEnum.year1to5||posn==ProfileWorkExEnum.year5to10||posn==ProfileWorkExEnum.year10)
+{
+  Navigator.pushNamed(context, 'permission');
+}
 }
 
 );
@@ -127,6 +136,7 @@ SizedBox(height:size.height*0.0025),
           text: ProfileCollegeDegreeEnum.underGraduate,
           isSelected:
               _selectedPosition == ProfileCollegeDegreeEnum.underGraduate,
+              
         ),
         SizedBox(
           height: size.height * 0.028,
@@ -240,11 +250,14 @@ SizedBox(height:size.height*0.0025),
         Container(
           width: size.width*0.95,
           child: CustomSelectBox(
-            onTap: () =>
-                _positionSelected(ProfileTransitionFromEnum.breakFromWork),
+             onTap: () {
+            _positionSelected(ProfileTransitionFromEnum.breakFromWork);
+            
+          },
             text: ProfileTransitionFromEnum.breakFromWork,
             isSelected:
                 _selectedPosition == ProfileTransitionFromEnum.breakFromWork,
+                
           ),
         ),
       ];

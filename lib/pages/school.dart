@@ -1,14 +1,13 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:avtaar_signupotp/components/Colors.dart';
 import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
 import 'package:avtaar_signupotp/components/extension.dart';
-import 'package:avtaar_signupotp/constants/StringConstants.dart' as SC;
-import 'package:avtaar_signupotp/pages/board1.dart';
 import 'package:avtaar_signupotp/pages/board2.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:avtaar_signupotp/constants/StringConstants.dart' as SC;
 
 class School extends StatefulWidget {
   const School({super.key});
@@ -20,11 +19,39 @@ class School extends StatefulWidget {
 class _SchoolState extends State<School> {
   final TextEditingController SchoolController = TextEditingController();
   bool _validate = false;
-  bool _submitted = false;
+  bool _submitted=false;
   String? errorText;
+  List<String> schoolNames=[];
+  List<String> filteredSchools=[];
+bool showSuggestions=false;
+@override
+void initState(){
+  super.initState();
+  loadCSV();
+  SchoolController.addListener(_filterSchools);
+}
+Future<void> loadCSV() async{
+final rawData=await rootBundle.loadString('assets/schools.csv');
+List<List<dynamic>> csvData=const CsvToListConverter().convert(rawData);
+setState(() {
+  schoolNames=csvData.map((row)=>row[0].toString()).toList();
+  //extract school names
+  filteredSchools=List.from(schoolNames);//initially same as actual list
+});
+}
+void _filterSchools() {
+    String query = SchoolController.text.toLowerCase();
+   setState(() {
+     filteredSchools=schoolNames.where((school){
+return school.toLowerCase().contains(query);
+     }).toList();
+     showSuggestions=query.isNotEmpty;
+   });
+  }
 
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -47,7 +74,7 @@ class _SchoolState extends State<School> {
               children: [
                 SizedBox(height: 200.hWise, width: 200),
                 Text(
-                 SC.WHERE_DO_YOU_STUDY,
+                  SC.WHERE_DO_YOU_STUDY,
                   style: TextStyle(
                     fontWeight: TextStyleComponent.SOLEIL_SEMI_BOLD,
                     fontSize: size.height * 0.037,
@@ -79,6 +106,22 @@ class _SchoolState extends State<School> {
                     contentPadding: EdgeInsets.all(0), // Adjust these values as needed
                   ),
                 ),
+                // Show suggestions as the user types
+              if(showSuggestions)
+              Container(
+                height:200,
+                child: ListView.builder(itemCount:filteredSchools.length,itemBuilder:(context,index){
+                  return ListTile(
+                    title: Text(filteredSchools[index]),
+                    onTap: (){
+                      setState(() {
+                        SchoolController.text=filteredSchools[index];
+                        showSuggestions=false;
+                      });
+                    },
+                  );
+                }),
+              )
               ],
             ),
           ),
@@ -122,17 +165,8 @@ class _SchoolState extends State<School> {
                         _submitted = true;
                         if (!_validate) {
                           Navigator.push(context, MaterialPageRoute(builder:(context)=>Board2()));
-                        }
-                         // Navigator.push(
-                            //context,
-                            /*MaterialPageRoute(
-                              //builder: (context) => Gender(School: SchoolController.text),
-                            ),*/
-                          //);
-                        //}
-                        
-                         else {
-                          _submitted=true;
+                        } else {
+                          _submitted = true;
                           errorText = "Please enter School";
                         }
                       });
@@ -160,3 +194,7 @@ class _SchoolState extends State<School> {
     );
   }
 }
+
+  
+
+
