@@ -38,7 +38,7 @@ void main()async {
     ],
     
    child: MaterialApp(
-    initialRoute: 'details',
+    initialRoute: 'edu',
     debugShowCheckedModeBanner: false,
     routes: {
       'phone': (context) => RegisterScreen(),

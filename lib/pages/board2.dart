@@ -6,6 +6,7 @@ import 'package:avtaar_signupotp/components/customSelectBoxYear.dart';
 import 'package:avtaar_signupotp/components/extension.dart';
 import 'package:avtaar_signupotp/constants/ProfileEnums.dart';
 import 'package:avtaar_signupotp/constants/StringConstants.dart' as StringConstants;
+import 'package:avtaar_signupotp/pages/permissions.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
@@ -26,23 +27,26 @@ class _Board2State extends State<Board2> {
    String _ib="";
   late bool _over10th;
   bool _boardSelected = false;
-  String _selectedboard2 = StringConstants.EMPTY_STRING;
+  String _selectedBoard2 = StringConstants.EMPTY_STRING;
   TextEditingController? _textEditingController;
   bool _validate=false;
   final TextEditingController selfDescribeController=TextEditingController();
-  void _selectBoard(String board2)
+  void _selectBoard(String Board2)
   {
+    
     setState(() {
-      _selectedboard2=board2;
+      _selectedBoard2=Board2;
+      
+      Navigator.pushNamed(context, 'permission');
       selfDescribeController.clear();
     });
   }
   void _onSelfDescribeChanged(String value)
   {
     setState(() {
-      _selectedboard2=value;
+      _selectedBoard2=value;
       if(value.isNotEmpty){
-        _selectedboard2=value;
+        _selectedBoard2=value;
       
       }
     });
@@ -94,9 +98,17 @@ class _Board2State extends State<Board2> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                    
-                  CustomSelectBox(text: "  "+ProfileSchoolBoardEnum.isc+"  "),
+                  CustomSelectBox(text: "  "+ProfileSchoolBoardEnum.isc+"  ",
+                  
+                onTap: ()=>_selectBoard("isc"),
+                isSelected:_selectedBoard2=='isc',
+                  ),
                   SizedBox(width: size.width*0.085,),
-                  CustomSelectBox(text: ProfileSchoolBoardEnum.cbse),
+                  CustomSelectBox(text: ProfileSchoolBoardEnum.cbse,
+                    
+                onTap: ()=>_selectBoard("cbse"),
+                 isSelected:_selectedBoard2=='cbse',
+                  ),
                 ],),
                 SizedBox(
                     height: size.height * 0.025,
@@ -105,9 +117,17 @@ class _Board2State extends State<Board2> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(width: size.width*0.04,),
-                  CustomSelectBoxYear(text: ProfileSchoolBoardEnum.state),
+                  CustomSelectBoxYear(text: ProfileSchoolBoardEnum.state,
+                    
+                onTap: ()=>_selectBoard("state"),
+                 isSelected:_selectedBoard2=='state',
+                  ),
                   SizedBox(width: size.width*0.065,),
-                  CustomSelectBoxYear(text: ProfileSchoolBoardEnum.igcse),
+                  CustomSelectBoxYear(text: ProfileSchoolBoardEnum.ib,
+                    
+                onTap: ()=>_selectBoard("ib"),
+                 isSelected:_selectedBoard2=='ib',
+                  ),
                 ],
                 
                 ),

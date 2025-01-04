@@ -105,7 +105,7 @@ Navigator.pushNamed(context, 'clgname');
                     isSelected: _selectedYear == ProfileCollegeYearEnum.third,
                   ),
                    SizedBox(
-                        width: size.width * 0.03,
+                        width: size.width * 0.02,
                       ),
                       CustomSelectBoxYear(
                         onTap: () =>
@@ -115,7 +115,7 @@ Navigator.pushNamed(context, 'clgname');
                          _selectedYear == ProfileCollegeYearEnum.fourth,
                       ),
                       SizedBox(
-                        width: size.width * 0.03,
+                        width: size.width * 0.02,
                       ),
                       CustomSelectBoxYear(
                         onTap: () =>
