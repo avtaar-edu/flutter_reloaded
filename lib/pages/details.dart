@@ -504,7 +504,7 @@ if (_genderValue == ProfileGenderEnum.selfDescribe) _gap,
 if (_genderValue == ProfileGenderEnum.selfDescribe)
   CustomTextField(
     label: ProfileGenderEnum.selfDescribe,
-    controller: _genderDescribeController!,
+    //controller: _genderDescribeController!,
     onChanged: (value) {
       setState(() {
         // Handle the self-description input
@@ -621,7 +621,7 @@ _gap,
                                   height: size.height * 0.06,
                                   text: StringConstants.TERMS_AND_CONDITION,
                                   textSize: size.height * 0.022,
-                                  onPressed: () => _launchURL                                ),
+                                  onPressed: () => _launchURL ()                               ),
                                 SizedBox(
                                   height: size.height * 0.02,
                                 ),

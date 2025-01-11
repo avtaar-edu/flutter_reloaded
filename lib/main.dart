@@ -2,6 +2,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:avtaar_signupotp/Providers/GenderProvider.dart';
+import 'package:avtaar_signupotp/Providers/SchoolProvider.dart';
 import 'package:avtaar_signupotp/Providers/UsernameProvider.dart';
 import 'package:avtaar_signupotp/pages/board1.dart';
 import 'package:avtaar_signupotp/pages/board2.dart';
@@ -34,11 +35,12 @@ void main()async {
     
     MultiProvider(providers:[ 
     ChangeNotifierProvider(create: (_)=>GenderProvider(),),
-    ChangeNotifierProvider(create: (_)=>UsernameProvider(),)
+    ChangeNotifierProvider(create: (_)=>UsernameProvider(),),
+    ChangeNotifierProvider(create: (_)=>SchoolProvider(),),
     ],
     
    child: MaterialApp(
-    initialRoute: 'edu',
+    initialRoute: 'details',
     debugShowCheckedModeBanner: false,
     routes: {
       'phone': (context) => RegisterScreen(),
