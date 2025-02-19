@@ -22,7 +22,7 @@ class UserName {
   }
 }
 Future<void> sendname(UserName name) async {
-  final url = Uri.parse(nameUrl+'/save'); // Replace with your API endpoint
+  final url = Uri.parse(nameUrl+'/save'); 
 
   final response = await http.post(
     url,

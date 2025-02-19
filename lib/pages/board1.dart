@@ -11,9 +11,10 @@ import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+//create another class taking over10th as a parameter- if over10th is true, render board2 else board1 as a conditional operator
 class Board1 extends StatefulWidget {
  // final String name;
+ 
   Board1({super.key});
 
   @override
@@ -237,3 +238,4 @@ class _Board1State extends State<Board1> {
     );
   }
 }
+// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables

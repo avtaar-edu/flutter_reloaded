@@ -4,6 +4,7 @@ import 'package:avtaar_signupotp/components/extension.dart';
 import 'package:avtaar_signupotp/components/selectbox.dart';
 import 'package:avtaar_signupotp/constants/CareerEnums.dart';
 import 'package:avtaar_signupotp/pages/register_screen.dart';
+import 'package:avtaar_signupotp/pages/selectcareer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:avtaar_signupotp/constants/StringConstants.dart' as StringConstants;
@@ -30,8 +31,12 @@ class _AboutCareerState extends State<AboutCareer> {
 
   int? _selectedIdea;
    void _selectIdea(int index) {
-    _selectedIdea = index;
-
+    setState(() {
+      _selectedIdea=index;
+    });
+Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => NewCareerInterest()));
   }
 
 

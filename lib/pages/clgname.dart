@@ -7,7 +7,9 @@ import 'package:avtaar_signupotp/constants/StringConstants.dart' as SC;
 import 'package:avtaar_signupotp/pages/board1.dart';
 import 'package:avtaar_signupotp/pages/permissions.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CollegeName extends StatefulWidget {
@@ -22,7 +24,39 @@ class _CollegeNameState extends State<CollegeName> {
   bool _validate = false;
   bool _submitted = false;
   String? errorText;
+  List<String> collegeList = [];
+  List<String> filteredColleges = [];
 
+  bool showSuggestions=false;
+  @override
+  void initState()
+  {
+    super.initState();
+    loadCSV();
+    CollegeNameController.addListener(_filterColleges);
+  }
+Future<void> loadCSV() async {
+  try {
+    final rawdata = await rootBundle.loadString('assets/database.csv');
+    List<List<dynamic>> data = const CsvToListConverter().convert(rawdata);
+    print("Raw CSV Data: $rawdata"); 
+    setState(() {
+      collegeList = data.map((e) => e[0]?.toString() ?? '').toList(); // Handle null or invalid values
+      filteredColleges = List.from(collegeList); // Same as college list initially
+    });
+  } catch (e) {
+    print("Error loading CSV: $e");
+  }
+}
+
+  void _filterColleges()
+  {
+    setState(() {
+      final query = CollegeNameController.text.toLowerCase();
+      filteredColleges = collegeList.where((element) => element.toLowerCase().contains(query)).toList();
+      showSuggestions=query.isNotEmpty;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -79,6 +113,24 @@ class _CollegeNameState extends State<CollegeName> {
                     contentPadding: EdgeInsets.all(0), // Adjust these values as needed
                   ),
                 ),
+                if(showSuggestions)
+                Container(
+                  height: 200,
+                  child: ListView.builder(
+                    itemCount: filteredColleges.length,
+                    itemBuilder: (context,index){
+                      return ListTile(
+                        title: Text(filteredColleges[index]),
+                        onTap: (){
+                          CollegeNameController.text=filteredColleges[index];
+                          setState(() {
+                            showSuggestions=false;
+                          });
+                        },
+                      );
+                    },
+                  ),
+                )
               ],
             ),
           ),

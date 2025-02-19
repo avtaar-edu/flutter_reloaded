@@ -1,6 +1,8 @@
 import 'package:avtaar_signupotp/components/Colors.dart';
 import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
 import 'package:avtaar_signupotp/components/extension.dart';
+import 'package:avtaar_signupotp/constants/ProfileEnums.dart';
+import 'package:avtaar_signupotp/pages/board1.dart';
 import 'package:avtaar_signupotp/pages/board2.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 import 'package:csv/csv.dart';
@@ -10,6 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:avtaar_signupotp/constants/StringConstants.dart' as SC;
 
 class School extends StatefulWidget {
+  
   const School({super.key});
 
   @override
@@ -23,6 +26,7 @@ class _SchoolState extends State<School> {
   String? errorText;
   List<String> schoolNames=[];
   List<String> filteredSchools=[];
+  ProfileSchoolGradeEnum selectedGrade=ProfileSchoolGradeEnum();
 bool showSuggestions=false;
 @override
 void initState(){
@@ -160,17 +164,14 @@ return school.toLowerCase().contains(query);
               onPressed: SchoolController.text.isEmpty
                   ? null
                   : () {
-                      setState(() {
-                        _validate = SchoolController.text.isEmpty;
-                        _submitted = true;
-                        if (!_validate) {
-                          Navigator.push(context, MaterialPageRoute(builder:(context)=>Board2()));
-                        } else {
-                          _submitted = true;
-                          errorText = "Please enter School";
-                        }
-                      });
-                    },
+        
+            Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => Board1()), // Change to Board2() if needed
+  );
+
+        
+      },
             ),
           ),
           Positioned(
@@ -196,5 +197,4 @@ return school.toLowerCase().contains(query);
 }
 
   
-
 
