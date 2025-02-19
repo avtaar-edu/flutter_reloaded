@@ -38,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
  Phone phone1 = Phone(
           phone: '${countryController.text + phoneController.text}',
         );
-        //sendPhone(phone1);
+        sendPhone(phone1);
         Navigator.pushNamed(context, 'otp');
        
         //verifyPhone();

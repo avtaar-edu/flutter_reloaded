@@ -14,13 +14,15 @@ class GenderProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Method to submit gender to backend
-  /*Future<void> submitGender() async {
+
+
+  //Method to submit gender to backend
+  Future<void> submitGender() async {
     try {
       await sendGender(_genderSelect); // Submits the GenderSelect instance to the backend
       debugPrint("Provider updated: selected gender ${_genderSelect.gender}");
     } catch (error) {
       debugPrint("Failed to submit gender: $error");
     }
-  }*/
+  }
 }

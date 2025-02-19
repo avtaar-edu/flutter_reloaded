@@ -36,6 +36,6 @@ Future<void> sendPhone(Phone phone) async {
   if (response.statusCode == 200) {
     print('phone submitted successfully');
   } else {
-    print('Failed to submit name: ${response.statusCode}');
+    print('Failed to submit phone: ${response.statusCode}');
   }
 }

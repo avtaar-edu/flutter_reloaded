@@ -1,10 +1,14 @@
+import 'package:avtaar_signupotp/Providers/UserProvider.dart';
 import 'package:avtaar_signupotp/components/Colors.dart';
 import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
 import 'package:avtaar_signupotp/components/extension.dart';
 import 'package:avtaar_signupotp/pages/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:avtaar_signupotp/constants/StringConstants.dart' as StringConstants;
+import 'package:provider/provider.dart';
 
 class SignupCompleteClass extends StatefulWidget {
   const SignupCompleteClass({super.key});
@@ -14,11 +18,26 @@ class SignupCompleteClass extends StatefulWidget {
 }
 
 class _SignupCompleteClassState extends State<SignupCompleteClass> {
+   Future<String> fetchUsername()async {
+ int a =Provider.of<Userprovider>(context,listen: false).uid??0;
+
+    final url = Uri.parse('http://192.168.71.171:8080/api/users/get-username?userId=$a');
+    final response = await http.get(url);
+  print(" name=${response.body}");
+    if (response.statusCode == 200) {
+      print("Stored User ID: ${Provider.of<Userprovider>(context, listen: false).uid}");
+
+     return response.body.trim();
+
+    } else {
+      return 'User';
+    }
+  }
   @override
   Widget build(BuildContext context) {
    final size = MediaQuery.of(context).size;
 
-    var nameController;
+ 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromARGB(255, 255, 253, 239),
@@ -41,10 +60,25 @@ class _SignupCompleteClassState extends State<SignupCompleteClass> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                  SizedBox(height: 162.hWise, width: 200.wWise),
-                Text(
-                 "Hey <user>",
-                  style:TextStyleComponent.bookBlack14,
-                  textAlign: TextAlign.right,
+                FutureBuilder<String>(
+                  future: fetchUsername(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text(
+                        "Hey User",
+                        style: TextStyleComponent.bookBlack14,
+                        textAlign: TextAlign.right,
+                      );
+                    } else {
+                      return Text(
+                        "Hey ${snapshot.data}",
+                        style: TextStyleComponent.bookBlack14,
+                        textAlign: TextAlign.right,
+                      );
+                    }
+                  },
                 ),
                 SizedBox(height: 12.hWise, width: 200.wWise),
                 Text(
@@ -63,7 +97,7 @@ class _SignupCompleteClassState extends State<SignupCompleteClass> {
                   style:TextStyleComponent.boldOrange22,
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 36.hWise, width: 300.wWise),
+                SizedBox(height: 71.hWise, width: 300.wWise),
                  Text(
                  "We would love to know what you think about careers to improve your experience!",
                   style:TextStyle(fontFamily:TextStyleComponent.SOLEIL, fontSize: 11, fontWeight: FontWeight.bold),
@@ -71,7 +105,7 @@ class _SignupCompleteClassState extends State<SignupCompleteClass> {
                   maxLines: 2,
                   overflow: TextOverflow.clip,
                 ),
-                  SizedBox(height: 36.hWise, width: 300.wWise),
+                  SizedBox(height: 71.hWise, width: 300.wWise),
                 V2Button(
                                   text: 'Let\'s Begin',
                                   textSize: size.height * 0.0165,

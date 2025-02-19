@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'package:avtaar_signupotp/Providers/UserProvider.dart';
+import 'package:avtaar_signupotp/pages/ProfileWorkPosition.dart';
+import 'package:avtaar_signupotp/pages/education.dart';
 import 'package:avtaar_signupotp/pages/name.dart';
 import 'package:avtaar_signupotp/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({super.key});
@@ -33,30 +37,35 @@ Future<void> registerOrLogin(String phoneNumber, String password) async {
     _showErrorDialog(context, 'Something went wrong: $e');
   }
 }
-
-Future<bool> isPhoneNumberInUse(String phoneNumber) async {
-  try {
-    var response = await http.post(
-      Uri.parse('http://192.168.73.171:8080/api/users/check-phone'),
+Future<bool> isPhoneNumberInUse(String phoneNumber)async{
+  try{
+var response=await http.post(Uri.parse('http://192.168.71.171:8080/api/users/check-phone'),
       headers: {'Content-Type': 'application/json'},
-      body: json.encode({'phone': phoneNumber}),
-    );
+      body: json.encode({'phone': "+91 $phoneNumber"}), );
+      print("Check phone response:${response.body}");
+      if(response.statusCode==200){
+        var data=json.decode(response.body);
+        return data['exists']??false;
 
-    if (response.statusCode == 200) {
-      // If the phone number exists, response should indicate that
-      var data = json.decode(response.body);
-      return data['exists'] ?? false; // Assume the response has an 'exists' key
-    } else {
-      throw Exception('Failed to check phone number');
-    }
-  } catch (e) {
-    print('Error checking phone number: $e');
-    return false; // In case of an error, assume phone is not in use
+      }
+      else{
+        return false;
+
+
+
+
+
+
+      }
+  }catch(e)
+  {
+    print("Error checking phone number: $e");
+    return false;
   }
 }
 
   Future<void> register(String phoneNumber, String password) async {
-  final registerUrl = Uri.parse('http://192.168.73.171:8080/api/users/register');
+  final registerUrl = Uri.parse('http://192.168.71.171:8080/api/users/register');
   try {
     final registerResponse = await http.post(
       registerUrl,
@@ -79,7 +88,7 @@ print(registerResponse.body);
         // Save token and userId in secure storage
         await storage.write(key: 'jwt_token', value: token);
         await storage.write(key: 'userId', value: userId.toString());
-
+Provider.of<Userprovider>(context, listen: false).setUid(userId);
         // Navigate to the next screen
         Navigator.push(
           context,
@@ -99,7 +108,7 @@ print(registerResponse.body);
 
 
 Future<void> login(String phoneNumber, String password) async {
-  final loginUrl = Uri.parse('http://192.168.73.171:8080/api/users/login');
+  final loginUrl = Uri.parse('http://192.168.71.171:8080/api/users/login');
   try {
     final loginResponse = await http.post(
       loginUrl,
@@ -116,16 +125,18 @@ Future<void> login(String phoneNumber, String password) async {
     if (loginResponse.statusCode == 200) {
       final data = jsonDecode(loginResponse.body);
       final token = data['token'];
-      final userId = data['userId']; // Extract userId
+      final userId = data['userId'];
 
       if (token != null && userId != null) {
-        // Save token and userId in secure storage
         await storage.write(key: 'jwt_token', value: token);
-        await storage.write(key: 'userId', value: userId);
+        await storage.write(key: 'userId', value: userId.toString());
+Provider.of<Userprovider>(context,listen: false).setUid(userId);
 
-        Navigator.push(
+        setState(() {}); // Ensure UI rebuild before navigating
+
+        Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Name(userId: userId)),
+          MaterialPageRoute(builder: (context) => Education()),
         );
       } else {
         print("Token or userId not found in login response.");

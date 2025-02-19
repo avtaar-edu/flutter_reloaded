@@ -3,6 +3,7 @@ import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
 import 'package:avtaar_signupotp/components/extension.dart';
 import 'package:avtaar_signupotp/components/selectbox.dart';
 import 'package:avtaar_signupotp/constants/CareerEnums.dart';
+import 'package:avtaar_signupotp/pages/howwell.dart';
 import 'package:avtaar_signupotp/pages/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,8 +31,12 @@ class _ExploreState extends State<Explore> {
 
   int? _selectedIdea;
    void _selectIdea(int index) {
-    _selectedIdea = index;
-
+    setState(() {
+      _selectedIdea=index;
+    });
+   Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => AboutCareer()));
   }
 
 

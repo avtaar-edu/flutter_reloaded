@@ -5,14 +5,19 @@ import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
 import 'package:avtaar_signupotp/components/customSelectBox.dart';
 import 'package:avtaar_signupotp/components/extension.dart';
 import 'package:avtaar_signupotp/models/GenderSelect.dart';
+import 'package:avtaar_signupotp/pages/education.dart';
 import 'package:avtaar_signupotp/widgets/fwd_button.dart';
 //import 'package:avtaar_signupotp/widgets/selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Gender extends StatefulWidget {
   final String name;
+ 
   Gender({super.key, required this.name});
   
   @override
@@ -21,12 +26,53 @@ class Gender extends StatefulWidget {
 
 class _GenderState extends State<Gender> {
   String selectedGender="";
+   final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+   String? errorText;
   bool _validate=false;
   final TextEditingController selfDescribeController=TextEditingController();
+    Future<void> sendUsergenderToBackend(String username) async {
+    final url = Uri.parse('http://192.168.71.171:8080/api/users/add-gender');
+    final userId = await secureStorage.read(key: 'userId');
+    final token = await secureStorage.read(key: 'jwt_token');
+
+    if ( token == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("User ID or token not found. Please log in again.")),
+      );
+      return;
+    }
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'userId': userId,
+          'username': username,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("gender saved successfully!")),
+        );
+      } else {
+        throw Exception("Failed to save gender: ${response.body}");
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
+    }
+  }
   void _onGenderSelected(String gender)
   {
     setState(() {
       selectedGender=gender;
+
       selfDescribeController.clear();
     });
   }
@@ -46,7 +92,8 @@ class _GenderState extends State<Gender> {
     selfDescribeController.dispose();
     super.dispose();
   }
-  _GenderState();
+
+_GenderState();
   @override
   Widget build(BuildContext context) {
           final size = MediaQuery.of(context).size;
@@ -75,7 +122,7 @@ class _GenderState extends State<Gender> {
                 children: [
                   SizedBox(height: 170.hWise,width:200),
                    Text(
-                    'Hi ${widget.name}!\nTo which gender identity do you most identify with?',
+                    'Hi !\nTo which gender identity do you most identify with?',
                     
                      style: TextStyle(
                 fontWeight: TextStyleComponent.SOLEIL_SEMI_BOLD,
@@ -208,10 +255,13 @@ class _GenderState extends State<Gender> {
       if(!_validate){
     
   context.read<GenderProvider>().setGender(selectedGender); // Sets the gender
-  //context.read<GenderProvider>().submitGender(); // Submits the gender
+ // context.read<GenderProvider>().submitGender(); // Submits the gender
+  sendUsergenderToBackend(selectedGender);
 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You selected: $selectedGender")));
-      Navigator.pushNamed(context, 'edu');
-     
+    Navigator.pushReplacement(
+  context,
+  MaterialPageRoute(builder: (context) =>Education()),
+);
       }
       else{
         

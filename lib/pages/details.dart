@@ -21,6 +21,8 @@ class Details extends StatefulWidget {
 }
 class _DetailsState extends State<Details> {
   List<String> listOfCareers = ["Biologist", "Scientist"];
+  String answer = "I am in college";
+  
   bool deleted = false;
   bool _deleteSwitch = false;
   final _formKey = GlobalKey<FormState>();
@@ -464,41 +466,41 @@ _launchURL2() async {
                     _gap,
                      Container(
   width: size.width * 0.7,
-  child: DropdownButtonFormField<String>(
-    style: TextStyleComponent.dNormalBlack(
-      fontSize: size.height * 0.022,
-    ),
+  child:DropdownButtonFormField<String>(
+    style:TextStyleComponent.dNormalBlack(fontSize: size.height * 0.022),
     onTap: () {
-      FocusScope.of(context).unfocus(); 
+      FocusScope.of(context).unfocus();
     },
-    elevation: 4,
-    decoration: InputDecoration(
-      labelText: StringConstants.GENDER,
-      contentPadding: EdgeInsets.only(
-        bottom: 0,
-        top: size.height * 0.009,
-      ),
+    elevation: 0,
+    decoration: InputDecoration(labelText: "Gender Preference",
+    labelStyle: TextStyleComponent.dNormalBlack(fontSize: size.height * 0.022),
+    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:Colors.black)),
+    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color:Colors.black)),
+    contentPadding: EdgeInsets.zero,
     ),
-    icon: Icon(Icons.keyboard_arrow_down),
+    icon: Icon(Icons.keyboard_arrow_down,color: Colors.black,),
+    
+
+
     
     items: _genderList.map((gender) {
       return DropdownMenuItem<String>(
         value: gender,
-        child: Text(
-          gender,
-          style: TextStyleComponent.dNormalBlack(
-            fontSize: size.height * 0.022,
-          ),
-        ),
+        child: Text(gender, style: TextStyleComponent.dNormalBlack(fontSize: size.height * 0.022)),
       );
     }).toList(),
     onChanged: (String? value) {
       setState(() {
-        _genderValue = value; // Update the selected gender value
-      });
+        _genderValue = value;
+      },);
     },
-    value: _genderValue, // Set the initial value
-  ),
+    value: _genderValue,
+    hint:Text(StringConstants.GENDER,
+    style: TextStyleComponent.dNormalBlack(fontSize: size.height * 0.022),
+    )
+  )
+                     
+
 ),
 if (_genderValue == ProfileGenderEnum.selfDescribe) _gap,
 if (_genderValue == ProfileGenderEnum.selfDescribe)
@@ -527,7 +529,7 @@ _gap,
                         ]
                       ),
                       
-                    
+                    //according to answer we will make different widgets for each suitable answer 
                   )
                 ],
               ),

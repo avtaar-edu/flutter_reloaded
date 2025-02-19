@@ -14,7 +14,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Name extends StatefulWidget {
-  const Name({super.key, required userId});
+  int userId;
+  Name({super.key, required this.userId});
 
   @override
   State<Name> createState() => _NameState();
@@ -28,7 +29,7 @@ class _NameState extends State<Name> {
   String? errorText;
 
   Future<void> sendUsernameToBackend(String username) async {
-    final url = Uri.parse('http://192.168.73.171:8080/api/users/add-username');
+    final url = Uri.parse('http://192.168.71.171:8080/api/users/add-username');
     final userId = await secureStorage.read(key: 'userId');
     final token = await secureStorage.read(key: 'jwt_token');
 
