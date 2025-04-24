@@ -2,6 +2,7 @@ import 'package:avtaar_signupotp/Providers/UserProvider.dart';
 import 'package:avtaar_signupotp/components/Colors.dart';
 import 'package:avtaar_signupotp/components/TextStyleComponent.dart';
 import 'package:avtaar_signupotp/components/extension.dart';
+import 'package:avtaar_signupotp/pages/explorecareer.dart';
 import 'package:avtaar_signupotp/pages/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -109,7 +110,11 @@ class _SignupCompleteClassState extends State<SignupCompleteClass> {
                 V2Button(
                                   text: 'Let\'s Begin',
                                   textSize: size.height * 0.0165,
-                                  onPressed: (){},
+                                  onPressed: (){
+                                    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) =>(Explore())), );
+                                  },
                                   
                                   height: size.height * 0.064,
                                 ),
